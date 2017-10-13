@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -9,10 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.json.JSONObject;
 
 public class HelloWorld extends AbstractHandler
 {
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void handle( String target,
                         Request baseRequest,
                         HttpServletRequest request,
@@ -29,8 +30,11 @@ public class HelloWorld extends AbstractHandler
         response.getWriter().println("blah " + target + "<br />blah2 " + baseRequest + "<br />blah3 " + request + "<br />blah4 " + response);
         if ("POST".equalsIgnoreCase(request.getMethod())) 
         {
-           String test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-           response.getWriter().println("<br />blah5 " + URLDecoder.decode(test));
+            String resultString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        	JSONObject result= new JSONObject(resultString);
+        	response.getWriter().println("<br /" + result);
+        	response.getWriter().println("<br /" + result.getString("num"));
+        	response.getWriter().println("<br /" + result.getString("text"));
         }
 
         // Inform jetty that this request has now been handled

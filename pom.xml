@@ -40,5 +40,11 @@
     <artifactId>jetty-servlet</artifactId>
     <version>9.4.3.v20170317</version>
   </dependency>
+	<!-- https://mvnrepository.com/artifact/org.json/json -->
+	<dependency>
+	    <groupId>org.json</groupId>
+	    <artifactId>json</artifactId>
+	    <version>20170516</version>
+	</dependency>
   </dependencies>
 </project>
