@@ -1,5 +1,4 @@
 git add .
-git commit -m "Test"
+git commit -m "commit"
 git push heroku master
-echo "Press enter to exit"
-read
+pause
