@@ -29,7 +29,7 @@ public class HelloWorld extends AbstractHandler
         if ("POST".equalsIgnoreCase(request.getMethod())) 
         {
            String test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-           response.getWriter().println("blah5 " + test);
+           response.getWriter().println("<br />blah5 " + test);
         }
 
         // Inform jetty that this request has now been handled
