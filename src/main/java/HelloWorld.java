@@ -32,9 +32,9 @@ public class HelloWorld extends AbstractHandler
         {
             String resultString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         	JSONObject result= new JSONObject(resultString);
-        	response.getWriter().println("<br /" + result);
-        	response.getWriter().println("<br /" + result.getString("num"));
-        	response.getWriter().println("<br /" + result.getString("text"));
+        	response.getWriter().println("<br />" + result);
+        	response.getWriter().println("<br />" + result.getString("num"));
+        	response.getWriter().println("<br />" + result.getString("text"));
         }
 
         // Inform jetty that this request has now been handled
