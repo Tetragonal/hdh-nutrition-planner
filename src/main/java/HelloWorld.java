@@ -27,20 +27,39 @@ public class HelloWorld extends AbstractHandler
         response.setStatus(HttpServletResponse.SC_OK);
 
         // Write back response
-        response.getWriter().println("blah " + target + "<br />blah2 " + baseRequest + "<br />blah3 " + request + "<br />blah4 " + response);
+        //response.getWriter().println("blah " + target + "<br />blah2 " + baseRequest + "<br />blah3 " + request + "<br />blah4 " + response);
         if ("POST".equalsIgnoreCase(request.getMethod())) 
-        {
-            String resultString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-        	JSONObject result= new JSONObject(resultString);
-        	response.getWriter().println("<br />" + result);
-        	response.getWriter().println("<br />" + result.getString("num"));
-        	response.getWriter().println("<br />" + result.getString("text"));
+        {	
+        	try {
+	            String resultString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+	        	JSONObject result= new JSONObject(resultString);
+	        	response.getWriter().println("<br />" + result);
+	        	response.getWriter().println("<br />" + 2*Integer.parseInt(result.getString("num")));
+	        	response.getWriter().println("<br />" + cipher(result.getString("text"),13));
+        	}catch(Exception e) {
+        		System.out.println("Error, unexpected input?");
+        	}
+        	
+        }else {
+        	response.getWriter().print("<h3>Hello world!</h3>");
         }
 
         // Inform jetty that this request has now been handled
         baseRequest.setHandled(true);
     }
-
+	//https://stackoverflow.com/questions/19108737/java-how-to-implement-a-shift-cipher-caesar-cipher
+	private String cipher(String msg, int shift){
+	    String s = "";
+	    int len = msg.length();
+	    for(int x = 0; x < len; x++){
+	        char c = (char)(msg.charAt(x) + shift);
+	        if (c > 'z')
+	            s += (char)(msg.charAt(x) - (26-shift));
+	        else
+	            s += (char)(msg.charAt(x) + shift);
+	    }
+	    return s;
+	}
     public static void main( String[] args ) throws Exception
     {
         Server server = new Server(Integer.parseInt(args[0]));
