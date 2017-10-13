@@ -34,16 +34,11 @@
     <groupId>org.eclipse.jetty</groupId>
     <artifactId>jetty-server</artifactId>
     <version>9.4.3.v20170317</version>
-</dependency>
-<dependency>
+  </dependency>
+	<dependency>
     <groupId>org.eclipse.jetty</groupId>
     <artifactId>jetty-servlet</artifactId>
     <version>9.4.3.v20170317</version>
-</dependency>
-<dependency>
-    <groupId>com.heroku.sdk</groupId>
-    <artifactId>heroku-maven-plugin</artifactId>
-    <version>1.0.3</version>
-</dependency>
+  </dependency>
   </dependencies>
 </project>
