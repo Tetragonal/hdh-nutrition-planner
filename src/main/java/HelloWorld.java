@@ -33,9 +33,10 @@ public class HelloWorld extends AbstractHandler
         	try {
 	            String resultString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 	        	JSONObject result= new JSONObject(resultString);
-	        	response.getWriter().println("<br />" + result);
-	        	response.getWriter().println("<br />" + 2*Integer.parseInt(result.getString("num")));
-	        	response.getWriter().println("<br />" + cipher(result.getString("text"),13));
+	        	JSONObject parsedResult = new JSONObject();
+	        	parsedResult.put("num", 2*Integer.parseInt(result.getString("num")));
+	        	parsedResult.put("text", cipher(result.getString("text"),13));
+	        	response.getWriter().println(parsedResult.toString());
         	}catch(Exception e) {
         		System.out.println("Error, unexpected input?");
         	}
