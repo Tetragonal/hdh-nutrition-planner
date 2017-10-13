@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,11 @@ public class HelloWorld extends AbstractHandler
 
         // Write back response
         response.getWriter().println("blah " + target + "<br />blah2 " + baseRequest + "<br />blah3 " + request + "<br />blah4 " + response);
+        if ("POST".equalsIgnoreCase(request.getMethod())) 
+        {
+           String test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+           response.getWriter().println("blah5 " + test);
+        }
 
         // Inform jetty that this request has now been handled
         baseRequest.setHandled(true);
