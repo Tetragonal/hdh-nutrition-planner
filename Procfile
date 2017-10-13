@@ -1,1 +1,1 @@
-web: java -jar rainbowcat-jetty.jar
+java -jar rainbowcat-jetty.jar
