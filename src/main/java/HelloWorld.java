@@ -32,7 +32,7 @@ public class HelloWorld extends AbstractHandler
 
     public static void main( String[] args ) throws Exception
     {
-        Server server = new Server(80);
+        Server server = new Server(Integer.parseInt(args[0]));
         server.setHandler(new HelloWorld());
 
         server.start();
