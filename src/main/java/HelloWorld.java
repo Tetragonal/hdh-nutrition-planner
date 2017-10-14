@@ -27,7 +27,6 @@ public class HelloWorld extends AbstractHandler
 
         // Write back response
         //response.getWriter().println("blah " + target + "<br />blah2 " + baseRequest + "<br />blah3 " + request + "<br />blah4 " + response);
-        System.out.println(request.getPathInfo() + " " + request.getContextPath() + " " + request.getPathTranslated() + " " + request.getServletPath());
         if (request.getPathInfo().equals("/api") && "POST".equalsIgnoreCase(request.getMethod())) 
         {	
         	try {
