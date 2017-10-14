@@ -12,8 +12,7 @@ import org.json.JSONObject;
 
 public class HelloWorld extends AbstractHandler
 {
-    @SuppressWarnings("deprecation")
-	@Override
+    @Override
     public void handle( String target,
                         Request baseRequest,
                         HttpServletRequest request,
@@ -51,8 +50,7 @@ public class HelloWorld extends AbstractHandler
 	//https://stackoverflow.com/questions/19108737/java-how-to-implement-a-shift-cipher-caesar-cipher
 	private String cipher(String msg, int shift){
 	    String s = "";
-	    int len = msg.length();
-	    for(int x = 0; x < len; x++){
+	    for(int x = 0; x < msg.length(); x++){
 	        char c = (char)(msg.charAt(x) + shift);
 	        if (c > 'z')
 	            s += (char)(msg.charAt(x) - (26-shift));
@@ -66,7 +64,7 @@ public class HelloWorld extends AbstractHandler
         Server server = new Server(Integer.parseInt(args[0]));
         server.setHandler(new HelloWorld());
 
-        System.out.println(args[0]);
+        System.out.println("Server started on port " + args[0]);
         server.start();
         server.join();
     }
