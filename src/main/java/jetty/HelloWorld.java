@@ -82,7 +82,7 @@ public class HelloWorld extends AbstractHandler
         context.setHandler(h = new HelloWorld() );
         
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[] { h, new TestHandler()});
+        handlers.setHandlers(new Handler[] { context, new TestHandler()});
         server.setHandler(handlers);
         
 
