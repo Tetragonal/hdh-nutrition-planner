@@ -15,7 +15,7 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.json.JSONObject;
 
-public class HelloWorld extends AbstractHandler
+public class ApiHandler extends AbstractHandler
 {
     @Override
     public void handle( String target,
@@ -64,32 +64,4 @@ public class HelloWorld extends AbstractHandler
 	    }
 	    return s;
 	}
-    public static void main( String[] args ) throws Exception
-    {
-        Server server = new Server(Integer.parseInt(args[0]));
-        
-        
-        ResourceHandler resource_handler = new ResourceHandler();
-        resource_handler.setDirectoriesListed(true);
-        resource_handler.setWelcomeFiles(new String[]{ "index.html" });
-
-        resource_handler.setResourceBase(".");
-		
-        ContextHandler context = new ContextHandler();
-        context.setContextPath( "/hello" );
-        context.setHandler(new HelloWorld());
-        
-        
-        HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[] { context, resource_handler, new TestHandler()});
-        server.setHandler(handlers);
-        
-
-        
-        //server.setHandler(context);
-
-        System.out.println("Server started on port " + args[0]);
-        server.start();
-        server.join();
-    }
 }
