@@ -1,3 +1,4 @@
+package jetty;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.eclipse.jetty.server.handler.ContextHandler;
 import org.json.JSONObject;
 
 public class HelloWorld extends AbstractHandler
@@ -61,7 +63,12 @@ public class HelloWorld extends AbstractHandler
     public static void main( String[] args ) throws Exception
     {
         Server server = new Server(Integer.parseInt(args[0]));
-        server.setHandler(new HelloWorld());
+        
+        ContextHandler context = new ContextHandler();
+        context.setContextPath( "/hello" );
+        context.setHandler( new HelloWorld() );
+        
+        server.setHandler(context);
 
         System.out.println("Server started on port " + args[0]);
         server.start();
