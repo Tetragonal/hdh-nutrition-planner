@@ -11,7 +11,6 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.json.JSONObject;
@@ -69,20 +68,20 @@ public class HelloWorld extends AbstractHandler
     {
         Server server = new Server(Integer.parseInt(args[0]));
         
-        /*
+        
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);
         resource_handler.setWelcomeFiles(new String[]{ "index.html" });
 
         resource_handler.setResourceBase(".");
-		*/
-        HelloWorld h;
+		
         ContextHandler context = new ContextHandler();
         context.setContextPath( "/hello" );
-        context.setHandler(h = new HelloWorld() );
+        context.setHandler(new HelloWorld());
+        
         
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[] { context, new TestHandler()});
+        handlers.setHandlers(new Handler[] { context, resource_handler, new TestHandler()});
         server.setHandler(handlers);
         
 
