@@ -26,7 +26,6 @@ public class HelloWorld extends AbstractHandler
         response.setStatus(HttpServletResponse.SC_OK);
 
         // Write back response
-        //response.getWriter().println("blah " + target + "<br />blah2 " + baseRequest + "<br />blah3 " + request + "<br />blah4 " + response);
         if (request.getPathInfo().equals("/api") && "POST".equalsIgnoreCase(request.getMethod())) 
         {	
         	try {

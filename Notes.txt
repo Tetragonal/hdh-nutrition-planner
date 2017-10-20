@@ -1,0 +1,2 @@
+HTMLUnit is a GUI-less web browser, using to navigate the meal calendar
+jsoup is just a scraper, but is faster than HTMLUnit
