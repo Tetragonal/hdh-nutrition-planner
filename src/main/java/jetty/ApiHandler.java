@@ -6,13 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
-import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.json.JSONObject;
 
 public class ApiHandler extends AbstractHandler
@@ -32,7 +27,7 @@ public class ApiHandler extends AbstractHandler
         response.setStatus(HttpServletResponse.SC_OK);
 
         // Write back response
-        if (request.getPathInfo().equals("/api") && "POST".equalsIgnoreCase(request.getMethod())) 
+        if ("POST".equalsIgnoreCase(request.getMethod())) 
         {	
         	try {
 	            String resultString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
@@ -42,11 +37,11 @@ public class ApiHandler extends AbstractHandler
 	        	parsedResult.put("text", cipher(result.getString("text"),13));
 	        	response.getWriter().println(parsedResult.toString());
         	}catch(Exception e) {
-        		System.out.println("Error, unexpected input?");
+        		System.out.println("Error, unexpected input");
         	}
         	
         }else {
-        	response.getWriter().print("<h3>Hello world!</h3>");
+        	response.getWriter().print("Error");
         }
 
         // Inform jetty that this request has now been handled
