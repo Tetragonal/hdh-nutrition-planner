@@ -16,6 +16,7 @@ public class TestHandler extends AbstractHandler {
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		response.getWriter().print("<h3>thonking</h3>");
+		System.out.println("Thonking");
 		
 	}
 	
