@@ -29,8 +29,8 @@ public class ApiHandler extends AbstractHandler
         response.setStatus(HttpServletResponse.SC_OK);
 
         // Write back response
-        if ("POST".equalsIgnoreCase(request.getMethod())) 
-        {
+        //if ("POST".equalsIgnoreCase(request.getMethod())) 
+        //{
             String resultString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         	JSONObject result= new JSONObject(resultString);
         	JSONObject parsedResult = new JSONObject();
@@ -52,9 +52,9 @@ public class ApiHandler extends AbstractHandler
         		System.out.println("Error, unexpected input");
         	}
         	
-        }else {
-        	response.getWriter().print("Error" + request.getMethod());
-        }
+        //}else {
+        //	response.getWriter().print("Error" + request.getMethod());
+        //}
 
         // Inform jetty that this request has now been handled
         baseRequest.setHandled(true);
