@@ -16,10 +16,10 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 public class Main {
     public static void main( String[] args ) throws Exception {
         Server server = new Server(Integer.parseInt(args[0]));
-        
+        ApiHandler ah = new ApiHandler();
         ContextHandler apiContext = new ContextHandler();
         apiContext.setContextPath( "/api" );
-        apiContext.setHandler(new ApiHandler());
+        apiContext.setHandler(ah);
         
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);
@@ -28,7 +28,7 @@ public class Main {
         
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[] {apiContext, resource_handler, new DefaultHandler()});
-        server.setHandler(handlers);
+        server.setHandler(ah);
         
         //server.setHandler(context);
 
