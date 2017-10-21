@@ -40,7 +40,7 @@ public class Main {
         server.join();
     }
     
-    private static Connection getConnection() throws URISyntaxException, SQLException {
+    public static Connection getConnection() throws URISyntaxException, SQLException {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
         System.out.println("Database url: " + dbUri);
 
