@@ -34,8 +34,6 @@ public class Main {
 
         System.out.println("Server started on port " + args[0]);
         
-        getConnection();
-        
         server.start();
         server.join();
     }

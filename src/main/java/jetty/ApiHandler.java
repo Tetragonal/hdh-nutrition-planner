@@ -1,6 +1,7 @@
 package jetty;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.stream.Collectors;
 
@@ -107,9 +108,26 @@ public class ApiHandler extends AbstractHandler
 					+ "sunday boolean"
 					+ ");";
 			stmt.executeUpdate(sql);
+			
+			sql = "INSERT INTO menu_items (name, restaurant, cost, calories, fat, trans_fat, cholesterol, sodium, carbohydrates, fiber, sugars, protein, allergens, monday, tuesday, wednesday, thursday, friday, saturday, sunday) "
+		            + "VALUES ('name', 'restaurant', 32, 40, 100.0, 90.0, 1531.3, 103.2, 1031.1, 123.2, 123.1, 123.1, '{\"soy\", \"milk\"}', true, true, true, true, true, true, true);";
+            stmt.executeUpdate(sql);
+            
+            //rm after
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery( "SELECT * FROM COMPANY;" );
+            while ( rs.next() ) {
+               System.out.println(rs);
+            }
+            rs.close();
+            
+            //
+            
+            
 			stmt.close();
 			c.close();
 			System.out.println("Successfully reset database");
+
 		}catch (Exception e) {
 			System.out.println(e.getClass()+": "+e.getMessage());
 		}
