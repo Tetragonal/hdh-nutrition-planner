@@ -81,7 +81,7 @@ public class ApiHandler extends AbstractHandler
 			c = Main.getConnection();
 			stmt = c.createStatement();
 			
-			String sql = "TRUNCATE TABLE 'menu_items';";
+			String sql = "TRUNCATE TABLE menu_items;";
 			stmt.execute(sql);
 			
 			sql = "CREATE TABLE 'menu_items' ("
@@ -109,13 +109,13 @@ public class ApiHandler extends AbstractHandler
 					+ ");";
 			stmt.executeUpdate(sql);
 			
-			sql = "INSERT INTO 'menu_items' (name, restaurant, cost, calories, fat, trans_fat, cholesterol, sodium, carbohydrates, fiber, sugars, protein, allergens, monday, tuesday, wednesday, thursday, friday, saturday, sunday) "
+			sql = "INSERT INTO menu_items (name, restaurant, cost, calories, fat, trans_fat, cholesterol, sodium, carbohydrates, fiber, sugars, protein, allergens, monday, tuesday, wednesday, thursday, friday, saturday, sunday) "
 		            + "VALUES ('name', 'restaurant', 32, 40, 100.0, 90.0, 1531.3, 103.2, 1031.1, 123.2, 123.1, 123.1, '{\"soy\", \"milk\"}', true, true, true, true, true, true, true);";
             stmt.executeUpdate(sql);
             
             //rm after
             Thread.sleep(10000);
-            ResultSet rs = stmt.executeQuery( "SELECT * FROM 'menu_items';" );
+            ResultSet rs = stmt.executeQuery( "SELECT * FROM menu_items;" );
             while ( rs.next() ) {
                System.out.println(rs);
             }
