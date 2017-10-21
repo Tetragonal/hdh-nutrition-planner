@@ -107,7 +107,7 @@ public class ApiHandler extends AbstractHandler
 					+ "saturday boolean,"
 					+ "sunday boolean"
 					+ ");";
-			stmt.executeUpdate(sql);
+			stmt.execute(sql);
 			
 			sql = "INSERT INTO menu_items (name, restaurant, cost, calories, fat, trans_fat, cholesterol, sodium, carbohydrates, fiber, sugars, protein, allergens, monday, tuesday, wednesday, thursday, friday, saturday, sunday) "
 		            + "VALUES ('name', 'restaurant', 32, 40, 100.0, 90.0, 1531.3, 103.2, 1031.1, 123.2, 123.1, 123.1, '{\"soy\", \"milk\"}', true, true, true, true, true, true, true);";
