@@ -114,7 +114,7 @@ public class ApiHandler extends AbstractHandler
             stmt.executeUpdate(sql);
             
             //rm after
-            stmt = c.createStatement();
+            Thread.sleep(10000);
             ResultSet rs = stmt.executeQuery( "SELECT * FROM COMPANY;" );
             while ( rs.next() ) {
                System.out.println(rs);
