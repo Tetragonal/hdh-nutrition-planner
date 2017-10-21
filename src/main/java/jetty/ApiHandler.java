@@ -81,8 +81,8 @@ public class ApiHandler extends AbstractHandler
 			c = Main.getConnection();
 			stmt = c.createStatement();
 			
-			String sql = "DROP TABLE menu_items;";
-			//stmt.execute(sql);
+			String sql = "TRUNCATE TABLE menu_items;";
+			stmt.execute(sql);
 			
 			sql = "CREATE TABLE menu_items ("
 					+ "name varchar(255),"
