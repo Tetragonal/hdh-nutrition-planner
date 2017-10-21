@@ -53,7 +53,7 @@ public class ApiHandler extends AbstractHandler
         	}
         	
         }else {
-        	response.getWriter().print("Error");
+        	response.getWriter().print("Error" + request.getMethod());
         }
 
         // Inform jetty that this request has now been handled
