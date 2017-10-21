@@ -33,7 +33,7 @@ public class ApiHandler extends AbstractHandler
         if ("POST".equalsIgnoreCase(request.getMethod())) 
         {
             String resultString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-            System.out.println("String " + resultString);
+            System.out.println("Received \n" + resultString);
         	JSONObject result= new JSONObject(resultString);
         	JSONObject parsedResult = new JSONObject();
         	try {
@@ -81,7 +81,7 @@ public class ApiHandler extends AbstractHandler
 			c = Main.getConnection();
 			stmt = c.createStatement();
 			
-			String sql = "DROP TABLE menu_items";
+			String sql = "DROP TABLE menu_items;";
 			stmt.execute(sql);
 			
 			sql = "CREATE TABLE menu_items ("
@@ -115,7 +115,7 @@ public class ApiHandler extends AbstractHandler
             
             //rm after
             Thread.sleep(10000);
-            ResultSet rs = stmt.executeQuery( "SELECT * FROM COMPANY;" );
+            ResultSet rs = stmt.executeQuery( "SELECT * FROM menu_items;" );
             while ( rs.next() ) {
                System.out.println(rs);
             }
