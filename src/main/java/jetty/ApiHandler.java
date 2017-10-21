@@ -82,7 +82,7 @@ public class ApiHandler extends AbstractHandler
 			stmt = c.createStatement();
 			
 			String sql = "DROP TABLE menu_items;";
-			stmt.execute(sql);
+			//stmt.execute(sql);
 			
 			sql = "CREATE TABLE menu_items ("
 					+ "name varchar(255),"
@@ -107,7 +107,7 @@ public class ApiHandler extends AbstractHandler
 					+ "saturday boolean,"
 					+ "sunday boolean"
 					+ ");";
-			stmt.execute(sql);
+			stmt.executeUpdate(sql);
 			
 			sql = "INSERT INTO menu_items (name, restaurant, cost, calories, fat, trans_fat, cholesterol, sodium, carbohydrates, fiber, sugars, protein, allergens, monday, tuesday, wednesday, thursday, friday, saturday, sunday) "
 		            + "VALUES ('name', 'restaurant', 32, 40, 100.0, 90.0, 1531.3, 103.2, 1031.1, 123.2, 123.1, 123.1, '{\"soy\", \"milk\"}', true, true, true, true, true, true, true);";
