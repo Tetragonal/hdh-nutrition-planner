@@ -33,6 +33,7 @@ public class ApiHandler extends AbstractHandler
         //{
             String resultString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         	JSONObject result= new JSONObject(resultString);
+        	System.out.println(result);
         	JSONObject parsedResult = new JSONObject();
         	try {
         		switch(result.getString("operation")) {
