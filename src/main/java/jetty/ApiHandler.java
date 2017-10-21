@@ -32,8 +32,8 @@ public class ApiHandler extends AbstractHandler
         //if ("POST".equalsIgnoreCase(request.getMethod())) 
         //{
             String resultString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+            System.out.println("String " + resultString);
         	JSONObject result= new JSONObject(resultString);
-        	System.out.println(result);
         	JSONObject parsedResult = new JSONObject();
         	try {
         		switch(result.getString("operation")) {
