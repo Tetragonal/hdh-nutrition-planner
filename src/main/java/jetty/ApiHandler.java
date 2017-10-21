@@ -116,15 +116,12 @@ public class ApiHandler extends AbstractHandler
             stmt.executeUpdate(sql);
             
             //rm after
-            Thread.sleep(10000);
             ResultSet rs = stmt.executeQuery( "SELECT * FROM \"menu_items\";" );
             while ( rs.next() ) {
-               System.out.println(rs);
+               System.out.println(rs.getString(1));
             }
             rs.close();
-            
             //
-            
             
 			stmt.close();
 			c.close();
