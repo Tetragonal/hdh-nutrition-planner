@@ -81,7 +81,7 @@ public class ApiHandler extends AbstractHandler
 			c = Main.getConnection();
 			stmt = c.createStatement();
 			
-			String sql = "TRUNCATE TABLE \"menu_items\";";
+			String sql = "TRUNCATE \"menu_items\";";
 			//stmt.executeUpdate(sql);
 			/*
 			sql = "CREATE TABLE \"menu_items\" ("
