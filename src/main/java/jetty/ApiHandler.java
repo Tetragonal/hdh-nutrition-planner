@@ -118,7 +118,9 @@ public class ApiHandler extends AbstractHandler
             //rm after
             ResultSet rs = stmt.executeQuery( "SELECT * FROM \"menu_items\";" );
             while ( rs.next() ) {
-               System.out.println(rs.getString(1));
+            	for(int i=0; i< rs.getFetchSize(); i++) {
+            		System.out.println(rs.getObject(i).toString());
+            	}
             }
             rs.close();
             //
