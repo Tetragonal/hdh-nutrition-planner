@@ -20,7 +20,7 @@ public class Scraper {
 	private static final String RESTAURANT_EXTENSION_URL = "default.aspx?i=";
 
 	private static final int DAYS_IN_WEEK = 7;
-	
+	//testing purposes
 	public static void main(String args[]) throws Exception {
 		ArrayList<String> URLs = getRestaurantURLs();
 		for(String s : URLs) {
@@ -36,18 +36,11 @@ public class Scraper {
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);  //turn off HtmlUnit logging
 		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 		ArrayList<String> URLs = getRestaurantURLs();
-		/*
+		
 		for(String s : URLs) {
 			menuItems.addAll(downloadMenuItems(s));
 		}
-		*/
-		/*
-		ArrayList<MenuItem> menuItems = downloadMenuItems(URLs.get(0));
-		for(MenuItem m : menuItems) {
-			System.out.println(m);
-		}
-		*/
-		menuItems = downloadMenuItems(URLs.get(0));
+		
 		return menuItems;
 	}
 	
@@ -58,7 +51,7 @@ public class Scraper {
 	        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 	        //click button to go to next day
 	        for(int i=0; i<DAYS_IN_WEEK; i++) {
-	        	System.out.println("hi2");
+	        	System.out.println("Loading day");
 	        	//sunday = 1, monday = 2, etc
 		        List<HtmlElement> aElements = page.getElementById("MenuListing_divRestaurants").getElementsByTagName("a");
 		        for(HtmlElement dm : aElements) {
@@ -69,7 +62,6 @@ public class Scraper {
 		        		//if no price listed, initialize with "-1"
 		        		mi = getMenuItem(page.getElementById("HoursLocations_locationName").getTextContent(), dm.getAttribute("href"), -1);
 		        	}
-		        	//System.out.println(mi + " " + mi.protein);
 		        	//only add if the list doesn't have 
 		        	boolean contains = false;
 		        	for(int j=0; j<menuItems.size(); j++) {
@@ -103,7 +95,6 @@ public class Scraper {
 		mi.name = doc.getElementById("lblItemHeader").ownText();
 		mi.calories = Integer.parseInt(doc.getElementById("tblFacts").child(0).child(2).child(0).child(0).text().replaceAll("[^\\d]", "").replaceAll("\\u00a0", ""));
 		
-		System.out.println(mi.calories);
 		Elements nutritionTableRows = doc.getElementById("tblNutritionDetails").child(0).children();
 		
 		mi.fat = Double.parseDouble(nutritionTableRows.get(1).child(0).ownText().replace("g", ""));
@@ -136,7 +127,6 @@ public class Scraper {
 			}
 		}
 		
-		System.out.println("test");
 		return restaurantURLs;
 	}
 }
