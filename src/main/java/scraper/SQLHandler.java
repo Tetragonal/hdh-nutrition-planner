@@ -52,7 +52,7 @@ public class SQLHandler {
 
 			Array array = c.createArrayOf("text", mi.allergens.toArray());
 			
-			String sql = "INSERT INTO \"" + MENU_TABLE_NAME + "\" (name, restaurant, cost, calories, fat, trans_fat, "
+			String sql = "INSERT INTO \"" + MENU_TABLE_NAME + "\" (name, restaurant, cost, calories, fat, saturated_fat, trans_fat, "
 						+ "cholesterol, sodium, carbohydrates, fiber, sugars, protein, allergens,"
 						+ " monday, tuesday, wednesday, thursday, friday, saturday, sunday) "
 			
@@ -62,6 +62,7 @@ public class SQLHandler {
 					+ "'" + mi.cost		 	+ "',"
 					+ "'" + mi.calories 	+ "',"
 					+ "'" + mi.fat 			+ "',"
+					+ "'" + mi.satFat		+ "',"
 					+ "'" + mi.transFat 	+ "',"
 					+ "'" + mi.cholesterol 	+ "',"
 					+ "'" + mi.sodium 		+ "',"
