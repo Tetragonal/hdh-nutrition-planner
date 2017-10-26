@@ -95,6 +95,7 @@ public class SQLHandler {
 
 			ResultSet rs = stmt.executeQuery("SELECT * FROM \"menu_items\";");
 
+			//sql to json
 			json = new JSONArray();
 			ResultSetMetaData rsmd = rs.getMetaData();
 			while(rs.next()) {

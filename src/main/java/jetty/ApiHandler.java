@@ -57,9 +57,14 @@ public class ApiHandler extends AbstractHandler {
 					System.out.println(sqlHandler.getMenuItems().toString(JSON_INDENTATION));
 					parsedResult.put("menuData", sqlHandler.getMenuItems());
 				default:
+					parsedResult.put("success", false);
 					break;
 				}
-				parsedResult.put("success", true);
+				
+				if(parsedResult.isNull("success")) {
+					parsedResult.put("success", true);
+				}
+				
 				response.getWriter().println(parsedResult.toString());
 			} catch (Exception e) {
 				parsedResult.put("success", false);
