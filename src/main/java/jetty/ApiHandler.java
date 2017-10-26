@@ -42,9 +42,9 @@ public class ApiHandler extends AbstractHandler {
 			try {
 				switch (result.getString("operation")) {
 				case "test":
+					parsedResult.put("success", true);
 					parsedResult.put("num", 2 * Integer.parseInt(result.getString("num")));
 					parsedResult.put("text", cipher(result.getString("text"), 13));
-					response.getWriter().println(parsedResult.toString());
 					break;
 				case "reset":
 					String password = result.getString("password");
@@ -55,12 +55,14 @@ public class ApiHandler extends AbstractHandler {
 					break;
 				case "get":
 					System.out.println(sqlHandler.getMenuItems().toString(JSON_INDENTATION));
-					response.getWriter().println(sqlHandler.getMenuItems().toString(JSON_INDENTATION));
+					parsedResult.put("menuData", sqlHandler.getMenuItems().toString(JSON_INDENTATION));
 					
 				default:
 					break;
 				}
+				response.getWriter().println(parsedResult.toString());
 			} catch (Exception e) {
+				parsedResult.put("success", false);
 				System.out.println("Error, unexpected input");
 			}
 

@@ -95,7 +95,6 @@ public class SQLHandler {
 
 			ResultSet rs = stmt.executeQuery("SELECT * FROM \"menu_items\";");
 
-
 			json = new JSONArray();
 			ResultSetMetaData rsmd = rs.getMetaData();
 			while(rs.next()) {
@@ -121,6 +120,7 @@ public class SQLHandler {
 	}
 	
 	public void updateMenuItems() throws Exception {
-		Scraper.downloadAllMenuItems();
+		resetDatabase(RESET_PASSWORD);
+		addMenuItems(Scraper.downloadAllMenuItems());
 	}
 }
