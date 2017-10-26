@@ -43,6 +43,7 @@ public class ApiHandler extends AbstractHandler {
 				switch (result.getString("operation")) {
 				case "ping":
 					parsedResult.put("response", "pong");
+					break;
 				case "test":
 					parsedResult.put("success", true);
 					parsedResult.put("num", 2 * Integer.parseInt(result.getString("num")));

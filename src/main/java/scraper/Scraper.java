@@ -58,6 +58,7 @@ public class Scraper {
 	        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 	        //click button to go to next day
 	        for(int i=0; i<DAYS_IN_WEEK; i++) {
+	        	System.out.println("hi2");
 	        	//sunday = 1, monday = 2, etc
 		        List<HtmlElement> aElements = page.getElementById("MenuListing_divRestaurants").getElementsByTagName("a");
 		        for(HtmlElement dm : aElements) {
@@ -134,6 +135,7 @@ public class Scraper {
 			}
 		}
 		
+		System.out.println("test");
 		return restaurantURLs;
 	}
 }
