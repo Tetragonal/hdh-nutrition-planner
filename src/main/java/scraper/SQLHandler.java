@@ -50,7 +50,7 @@ public class SQLHandler {
 			c = Main.getConnection();
 			stmt = c.createStatement();
 
-			Array array = c.createArrayOf("text", mi.allergens.toArray());
+			Array array = c.createArrayOf("varchar(255)", mi.allergens.toArray());
 			
 			String sql = "INSERT INTO \"" + MENU_TABLE_NAME + "\" (name, restaurant, cost, calories, fat, saturated_fat, trans_fat, "
 						+ "cholesterol, sodium, carbohydrates, fiber, sugars, protein, allergens,"

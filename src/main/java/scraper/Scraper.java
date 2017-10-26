@@ -20,12 +20,10 @@ public class Scraper {
 	private static final String RESTAURANT_EXTENSION_URL = "default.aspx?i=";
 
 	private static final int DAYS_IN_WEEK = 7;
+	
 	//testing purposes
 	public static void main(String args[]) throws Exception {
 		ArrayList<String> URLs = getRestaurantURLs();
-		for(String s : URLs) {
-			
-		}
 		ArrayList<MenuItem> menuItems = downloadMenuItems(URLs.get(0));
 		for(MenuItem m : menuItems) {
 			System.out.println(m);
@@ -67,7 +65,7 @@ public class Scraper {
 		        	for(int j=0; j<menuItems.size(); j++) {
 		        		MenuItem tempMi = menuItems.get(j); //gets jth menu item
 		        		if(tempMi.equals(mi)) {
-		        			tempMi.addDay((dayOfWeek+i-1)%7+1);
+		        			tempMi.addDay((dayOfWeek+i-1)%DAYS_IN_WEEK+1);
 		        			contains = true;
 		        			break;
 		        		}
