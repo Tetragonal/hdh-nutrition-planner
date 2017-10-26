@@ -41,6 +41,9 @@ public class ApiHandler extends AbstractHandler {
 			JSONObject parsedResult = new JSONObject();
 			try {
 				switch (result.getString("operation")) {
+				case "ping":
+					parsedResult.put("response", "pong");
+					System.out.println("Received ping");
 				case "test":
 					parsedResult.put("success", true);
 					parsedResult.put("num", 2 * Integer.parseInt(result.getString("num")));
