@@ -36,15 +36,18 @@ public class Scraper {
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);  //turn off HtmlUnit logging
 		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 		ArrayList<String> URLs = getRestaurantURLs();
+		/*
 		for(String s : URLs) {
 			menuItems.addAll(downloadMenuItems(s));
 		}
+		*/
 		/*
 		ArrayList<MenuItem> menuItems = downloadMenuItems(URLs.get(0));
 		for(MenuItem m : menuItems) {
 			System.out.println(m);
 		}
 		*/
+		downloadMenuItems(URLs.get(0));
 		return menuItems;
 	}
 	

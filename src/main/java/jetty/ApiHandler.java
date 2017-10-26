@@ -43,7 +43,6 @@ public class ApiHandler extends AbstractHandler {
 				switch (result.getString("operation")) {
 				case "ping":
 					parsedResult.put("response", "pong");
-					System.out.println("Received ping");
 				case "test":
 					parsedResult.put("success", true);
 					parsedResult.put("num", 2 * Integer.parseInt(result.getString("num")));
@@ -54,7 +53,17 @@ public class ApiHandler extends AbstractHandler {
 					sqlHandler.resetDatabase(password);
 					break;
 				case "update":
-					sqlHandler.updateMenuItems();
+					Thread t = new Thread(new Runnable() {
+				         @Override
+				         public void run() {
+				        	 try {
+								sqlHandler.updateMenuItems();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+				         }
+					});
+					t.start();
 					break;
 				case "get":
 					System.out.println(sqlHandler.getMenuItems().toString(JSON_INDENTATION));
