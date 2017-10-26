@@ -103,6 +103,7 @@ public class Scraper {
 		mi.name = doc.getElementById("lblItemHeader").ownText();
 		mi.calories = Integer.parseInt(doc.getElementById("tblFacts").child(0).child(2).child(0).child(0).text().replaceAll("[^\\d]", "").replaceAll("\\u00a0", ""));
 		
+		System.out.println(mi.calories);
 		Elements nutritionTableRows = doc.getElementById("tblNutritionDetails").child(0).children();
 		
 		mi.fat = Double.parseDouble(nutritionTableRows.get(1).child(0).ownText().replace("g", ""));
