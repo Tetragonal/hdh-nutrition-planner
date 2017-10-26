@@ -55,7 +55,7 @@ public class ApiHandler extends AbstractHandler {
 					break;
 				case "get":
 					System.out.println(sqlHandler.getMenuItems().toString(JSON_INDENTATION));
-					parsedResult.put("menuData", sqlHandler.getMenuItems().toString(JSON_INDENTATION));
+					parsedResult.put("menuData", sqlHandler.getMenuItems());
 				default:
 					break;
 				}
