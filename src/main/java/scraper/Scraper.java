@@ -47,7 +47,7 @@ public class Scraper {
 			System.out.println(m);
 		}
 		*/
-		downloadMenuItems(URLs.get(0));
+		menuItems = downloadMenuItems(URLs.get(0));
 		return menuItems;
 	}
 	
