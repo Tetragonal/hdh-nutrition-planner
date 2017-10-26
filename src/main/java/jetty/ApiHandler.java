@@ -73,7 +73,7 @@ public class ApiHandler extends AbstractHandler {
 					break;
 				}
 				
-				if(parsedResult.isNull("success")) {
+				if(!parsedResult.has("success")) {
 					parsedResult.put("success", true);
 				}
 				
