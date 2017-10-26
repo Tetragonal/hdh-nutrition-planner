@@ -81,6 +81,7 @@ public class ApiHandler extends AbstractHandler {
 			} catch (Exception e) {
 				parsedResult.put("success", false);
 				System.out.println("Error, unexpected input");
+				System.out.println(e.getStackTrace());
 			}
 
 		} else {
