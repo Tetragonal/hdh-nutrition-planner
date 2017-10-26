@@ -1,5 +1,6 @@
 package scraper;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -49,10 +50,12 @@ public class SQLHandler {
 			c = Main.getConnection();
 			stmt = c.createStatement();
 
+			Array array = c.createArrayOf("text", mi.allergens.toArray());
+			
 			String sql = "INSERT INTO \"" + MENU_TABLE_NAME + "\" (name, restaurant, cost, calories, fat, trans_fat, "
 						+ "cholesterol, sodium, carbohydrates, fiber, sugars, protein, allergens,"
 						+ " monday, tuesday, wednesday, thursday, friday, saturday, sunday) "
-					
+			
 					+ "VALUES ("
 					+ "'" + mi.name 		+ "',"
 					+ "'" + mi.restaurant 	+ "',"
@@ -66,7 +69,7 @@ public class SQLHandler {
 					+ "'" + mi.fiber 		+ "',"
 					+ "'" + mi.sugars 		+ "',"
 					+ "'" + mi.protein 		+ "',"
-					+ "'" + mi.allergens 	+ "',"
+					+ "'" + array		 	+ "',"
 					+ "'" + mi.monday 		+ "',"
 					+ "'" + mi.tuesday 		+ "',"
 					+ "'" + mi.wednesday 	+ "',"
@@ -75,11 +78,14 @@ public class SQLHandler {
 					+ "'" + mi.saturday 	+ "',"
 					+ "'" + mi.sunday 		+ "');";
 			stmt.executeUpdate(sql);
-
-			stmt.close();
-			c.close();
 			
 			System.out.println("Successfully added menu item " + mi.name + " " + mi.restaurant);
+		} catch (Exception e) {
+			System.out.println(e.getClass() + ": " + e.getMessage());
+		}
+		try {
+			stmt.close();
+			c.close();
 		} catch (Exception e) {
 			System.out.println(e.getClass() + ": " + e.getMessage());
 		}
