@@ -1,10 +1,6 @@
 package jetty;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -15,11 +11,12 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.json.JSONObject;
 
-import scraper.MenuItem;
 import scraper.SQLHandler;
 
 public class ApiHandler extends AbstractHandler {
-	SQLHandler sqlHandler;
+	private static final int JSON_INDENTATION = 2;
+	
+	private SQLHandler sqlHandler;
 	
 	public ApiHandler() {
 		super();
@@ -57,7 +54,8 @@ public class ApiHandler extends AbstractHandler {
 					sqlHandler.updateMenuItems();
 					break;
 				case "get":
-					System.out.println(sqlHandler.getMenuItems().toString(4));
+					System.out.println(sqlHandler.getMenuItems().toString(JSON_INDENTATION));
+					response.getWriter().println(sqlHandler.getMenuItems().toString(JSON_INDENTATION));
 					
 				default:
 					break;
