@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,12 +33,12 @@ public class Scraper {
 		*/
 	}
 	
-	public static void addAllMenuItems(SQLHandler handler) throws Exception {
+	public static void addAllMenuItems(SQLHandler handler, String menuTableName) throws Exception {
 		ArrayList<String> URLs = getRestaurantURLs();
 		for(String s : URLs) {
 			ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 			menuItems.addAll(downloadMenuItems(s));
-			handler.addMenuItems(menuItems);
+			handler.addMenuItems(menuItems, menuTableName);
 			System.out.println("Done with " + menuItems.get(0).restaurant);
 		}
 		

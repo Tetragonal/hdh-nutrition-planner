@@ -15,6 +15,8 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 
 public class Main {
+	public static boolean isUpdating = false;
+	
     public static void main( String[] args ) throws Exception {
     	java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);  //turn off HtmlUnit logging
         Server server = new Server(Integer.parseInt(args[0]));

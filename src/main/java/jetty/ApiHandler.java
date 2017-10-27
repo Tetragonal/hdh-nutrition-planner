@@ -52,7 +52,7 @@ public class ApiHandler extends AbstractHandler {
 					break;
 				case "reset":
 					String password = result.getString("password");
-					sqlHandler.resetDatabase(password);
+					sqlHandler.resetTable(password, SQLHandler.MENU_TABLE_NAME);
 					break;
 				case "update":
 					Thread t = new Thread(new Runnable() {
