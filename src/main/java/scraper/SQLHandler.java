@@ -113,7 +113,7 @@ public class SQLHandler {
 			  for (int i=1; i<=numColumns; i++) {
 			    String column_name = rsmd.getColumnName(i);
 			    if(rsmd.getColumnType(i) == Types.ARRAY) {
-			    	obj.put(column_name, rs.getArray(column_name).toString().replaceAll("\\{", "\\[").replaceAll("\\}","\\]"));
+			    	obj.put(column_name, new JSONArray((String[])rs.getArray(column_name).getArray()));
 			    }
 			    else{
 			    	obj.put(column_name, rs.getObject(column_name));
