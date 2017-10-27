@@ -55,7 +55,7 @@ public class Scraper {
 	        	System.out.println("Loading day");
 	        	//sunday = 1, monday = 2, etc
 		        List<HtmlElement> aElements = page.getElementById("MenuListing_divRestaurants").getElementsByTagName("a");
-		        if(aElements.size() == 0) {
+		        if(aElements == null || aElements.size() == 0) {
 		        	aElements = page.getElementById("MenuListing_divSpecialtyRestaurants").getElementsByTagName("a");
 		        }
 		        for(HtmlElement dm : aElements) {
