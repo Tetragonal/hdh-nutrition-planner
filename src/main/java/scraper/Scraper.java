@@ -118,7 +118,7 @@ public class Scraper {
 		mi.protein = Double.parseDouble(nutritionTableRows.get(4).child(2).ownText().replace("g", "").replace("Protein", "").replaceAll("\\u00a0", ""));
 		mi.sodium = Double.parseDouble(nutritionTableRows.get(5).child(0).ownText().replace("mg", "").replace("Sodium", "").replaceAll("\\u00a0", ""));
 		
-		mi.allergens = new ArrayList<String>(Arrays.asList(doc.getElementById("lblAllergens").ownText().split(", ")));
+		mi.allergens = new ArrayList<String>(Arrays.asList(doc.getElementById("lblAllergens").ownText().replaceAll("\\\\u00a0", "").split(",")));
 		return mi;
 	}
 	
