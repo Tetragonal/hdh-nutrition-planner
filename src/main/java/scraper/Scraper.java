@@ -38,7 +38,7 @@ public class Scraper {
 			ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 			menuItems.addAll(downloadMenuItems(s));
 			handler.addMenuItems(menuItems);
-			System.out.println("Done with " + menuItems.get(0).name);
+			System.out.println("Done with " + menuItems.get(0).restaurant);
 		}
 		
 	}
@@ -57,7 +57,7 @@ public class Scraper {
 		        	MenuItem mi = null;
 		        	try {
 		        		mi = getMenuItem(page.getElementById("HoursLocations_locationName").getTextContent(), dm.getAttribute("href"), Double.parseDouble(dm.getTextContent().substring(dm.getTextContent().indexOf("($")).replace(")", "").replace("($", "")));
-		        	}catch(ArrayIndexOutOfBoundsException e) {
+		        	}catch(Exception e) {
 		        		//if no price listed, initialize with "-1"
 		        		mi = getMenuItem(page.getElementById("HoursLocations_locationName").getTextContent(), dm.getAttribute("href"), -1);
 		        	}
