@@ -84,14 +84,11 @@ public class ApiHandler extends AbstractHandler {
 				parsedResult.put("success", false);
 				System.out.println("Error, unexpected input");
 				System.out.println(e);
+			}finally {
+				// Inform jetty that this request has now been handled
+				baseRequest.setHandled(true);
 			}
-
-		} else {
-			response.getWriter().print("Error, " + request.getMethod());
 		}
-
-		// Inform jetty that this request has now been handled
-		baseRequest.setHandled(true);
 	}
 
 	// https://stackoverflow.com/questions/19108737/java-how-to-implement-a-shift-cipher-caesar-cipher
