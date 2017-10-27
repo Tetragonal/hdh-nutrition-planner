@@ -34,7 +34,9 @@ public class Scraper {
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);  //turn off HtmlUnit logging
 		ArrayList<String> URLs = getRestaurantURLs();
 		
-		for(String s : URLs) {
+		for(int i=0; i<URLs.size(); i++) {
+			URLs = getRestaurantURLs(); //req because the menu items time out often
+			String s = URLs.get(i);
 			ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 			menuItems.addAll(downloadMenuItems(s));
 			handler.addMenuItems(menuItems);
@@ -44,6 +46,7 @@ public class Scraper {
 	}
 	
 	public static ArrayList<MenuItem> downloadMenuItems(String restaurantLink) throws Exception {
+		int loaded = 0;
 		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 	    try (WebClient webClient = new WebClient()) {
 	        HtmlPage page = webClient.getPage(DINING_MENU_URL + restaurantLink);
@@ -70,8 +73,10 @@ public class Scraper {
 			        	if(!contains) {
 			        		menuItems.add(mi);
 			        	}
+			        	loaded++;
 		        	}catch(Exception e) {
-		        		System.out.println("Failed to load menu item");
+		        		System.out.println("Failed to load menu item (successfully loaded the last " + loaded);
+		        		loaded = 0;
 		        	}
 		        }
 		        
