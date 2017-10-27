@@ -21,6 +21,7 @@ public class Main {
         ApiHandler ah = new ApiHandler();
         ContextHandler apiContext = new ContextHandler();
         apiContext.setContextPath( "/api" );
+        apiContext.setAllowNullPathInfo(true);
         apiContext.setHandler(ah);
         
         ResourceHandler resource_handler = new ResourceHandler();
