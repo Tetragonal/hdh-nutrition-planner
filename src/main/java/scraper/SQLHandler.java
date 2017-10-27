@@ -52,7 +52,6 @@ public class SQLHandler {
 			stmt = c.createStatement();
 
 			Array array = c.createArrayOf("text", mi.allergens.toArray());
-			System.out.println(array.toString());
 			
 			String sql = "INSERT INTO \"" + MENU_TABLE_NAME + "\" (name, restaurant, cost, calories, fat, saturated_fat, trans_fat, "
 						+ "cholesterol, sodium, carbohydrates, fiber, sugars, protein, allergens,"
@@ -102,8 +101,9 @@ public class SQLHandler {
 			c = Main.getConnection();
 			stmt = c.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM \"menu_items\";");
-
+			ResultSet rs = stmt.executeQuery("SELECT json_agg(\"" + MENU_TABLE_NAME + "FROM \"" + MENU_TABLE_NAME + "\";");
+				
+			/*
 			//sql to json
 			json = new JSONArray();
 			ResultSetMetaData rsmd = rs.getMetaData();
@@ -121,6 +121,10 @@ public class SQLHandler {
 			  }
 			  json.put(obj);
 			}
+			*/
+			
+			System.out.println(rs.getString(0));
+			json = new JSONArray(rs.getString(0));
 			
 			rs.close();
 			stmt.close();
