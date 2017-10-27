@@ -95,7 +95,7 @@ public class Scraper {
 		Document doc = Jsoup.connect(DINING_MENU_URL+extension).userAgent("Mozilla").get();
 
 		mi.name = doc.getElementById("lblItemHeader").ownText();
-		mi.calories = Integer.parseInt(doc.getElementById("tblFacts").child(0).child(2).child(0).child(0).text().replaceAll("[^\\d]", "").replaceAll("\\s", ""));
+		mi.calories = Integer.parseInt(doc.getElementById("tblFacts").child(0).child(2).child(0).child(0).text().replaceAll("[^\\d]", "").replaceAll("\\u00a0", ""));
 		
 		Elements nutritionTableRows = doc.getElementById("tblNutritionDetails").child(0).children();
 		
@@ -103,19 +103,19 @@ public class Scraper {
 		
 		mi.carb = Double.parseDouble(nutritionTableRows.get(1).child(2).ownText().replace("g", ""));
 		try {
-			mi.satFat = Double.parseDouble(nutritionTableRows.get(2).child(0).text().replace("g", "").replace("Sat. Fat", "").replaceAll("\\s", ""));
+			mi.satFat = Double.parseDouble(nutritionTableRows.get(2).child(0).text().replace("g", "").replace("Sat. Fat", "").replaceAll("\\u00a0", ""));
 		}catch (NumberFormatException nfe){
 			mi.satFat = 0;
-		}mi.fiber = Double.parseDouble(nutritionTableRows.get(2).child(2).text().replace("g", "").replace("Dietary Fiber", "").replaceAll("\\s", ""));
+		}mi.fiber = Double.parseDouble(nutritionTableRows.get(2).child(2).text().replace("g", "").replace("Dietary Fiber", "").replaceAll("\\u00a0", ""));
 		try {
-			mi.transFat = Double.parseDouble(nutritionTableRows.get(3).children().get(0).ownText().replace("g", "").replace("Trans Fat", "").replaceAll("\\s", ""));
+			mi.transFat = Double.parseDouble(nutritionTableRows.get(3).children().get(0).ownText().replace("g", "").replace("Trans Fat", "").replaceAll("\\u00a0", ""));
 		}catch (NumberFormatException nfe){
 			mi.transFat = 0;
 		}
-		mi.sugars = Double.parseDouble(nutritionTableRows.get(3).child(2).ownText().replace("Sugars", "").replace("g", "").replaceAll("\\s", ""));
-		mi.cholesterol = Double.parseDouble(nutritionTableRows.get(4).child(0).ownText().replace("mg", "").replace("Cholesterol", "").replaceAll("\\s", ""));
-		mi.protein = Double.parseDouble(nutritionTableRows.get(4).child(2).ownText().replace("g", "").replace("Protein", "").replaceAll("\\s", ""));
-		mi.sodium = Double.parseDouble(nutritionTableRows.get(5).child(0).ownText().replace("mg", "").replace("Sodium", "").replaceAll("\\s", ""));
+		mi.sugars = Double.parseDouble(nutritionTableRows.get(3).child(2).ownText().replace("Sugars", "").replace("g", "").replaceAll("\\u00a0", ""));
+		mi.cholesterol = Double.parseDouble(nutritionTableRows.get(4).child(0).ownText().replace("mg", "").replace("Cholesterol", "").replaceAll("\\u00a0", ""));
+		mi.protein = Double.parseDouble(nutritionTableRows.get(4).child(2).ownText().replace("g", "").replace("Protein", "").replaceAll("\\u00a0", ""));
+		mi.sodium = Double.parseDouble(nutritionTableRows.get(5).child(0).ownText().replace("mg", "").replace("Sodium", "").replaceAll("\\u00a0", ""));
 		
 		mi.allergens = new ArrayList<String>(Arrays.asList(doc.getElementById("lblAllergens").ownText().replaceAll("\\s", "").split(",")));
 		return mi;

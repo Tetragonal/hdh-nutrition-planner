@@ -122,8 +122,6 @@ public class SQLHandler {
 			  json.put(obj);
 			}
 			
-			
-			
 			rs.close();
 			stmt.close();
 			c.close();
