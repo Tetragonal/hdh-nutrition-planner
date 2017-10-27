@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -110,7 +111,12 @@ public class SQLHandler {
 			  JSONObject obj = new JSONObject();
 			  for (int i=1; i<=numColumns; i++) {
 			    String column_name = rsmd.getColumnName(i);
-			    obj.put(column_name, rs.getObject(column_name));
+			    if(rsmd.getColumnType(i) == Types.ARRAY) {
+			    	obj.put(column_name, rs.getArray(column_name));
+			    }
+			    else{
+			    	obj.put(column_name, rs.getObject(column_name));
+			    }
 			  }
 			  json.put(obj);
 			}
