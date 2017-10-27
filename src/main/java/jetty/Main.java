@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -15,6 +16,7 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 
 public class Main {
     public static void main( String[] args ) throws Exception {
+    	java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);  //turn off HtmlUnit logging
         Server server = new Server(Integer.parseInt(args[0]));
         ApiHandler ah = new ApiHandler();
         ContextHandler apiContext = new ContextHandler();

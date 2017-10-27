@@ -10,6 +10,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -31,7 +32,6 @@ public class Scraper {
 	}
 	
 	public static void addAllMenuItems(SQLHandler handler) throws Exception {
-		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);  //turn off HtmlUnit logging
 		ArrayList<String> URLs = getRestaurantURLs();
 		
 		for(int i=0; i<URLs.size(); i++) {
@@ -48,7 +48,7 @@ public class Scraper {
 	public static ArrayList<MenuItem> downloadMenuItems(String restaurantLink) throws Exception {
 		int loaded = 0;
 		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
-	    try (WebClient webClient = new WebClient()) {
+	    try (WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
 	        HtmlPage page = webClient.getPage(DINING_MENU_URL + restaurantLink);
 	        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 	        //click button to go to next day
@@ -75,7 +75,8 @@ public class Scraper {
 			        	}
 			        	loaded++;
 		        	}catch(Exception e) {
-		        		System.out.println("Failed to load menu item (successfully loaded the last " + loaded);
+		        		System.out.println("Failed to load menu item (successfully loaded the last " + loaded + ")");
+		        		System.out.println(e);
 		        		loaded = 0;
 		        	}
 		        }
@@ -118,7 +119,7 @@ public class Scraper {
 		mi.protein = Double.parseDouble(nutritionTableRows.get(4).child(2).ownText().replace("g", "").replace("Protein", "").replaceAll("\\u00a0", ""));
 		mi.sodium = Double.parseDouble(nutritionTableRows.get(5).child(0).ownText().replace("mg", "").replace("Sodium", "").replaceAll("\\u00a0", ""));
 		
-		mi.allergens = new ArrayList<String>(Arrays.asList(doc.getElementById("lblAllergens").ownText().replaceAll("\\\\u00a0", "").split(",")));
+		mi.allergens = new ArrayList<String>(Arrays.asList(doc.getElementById("lblAllergens").ownText().replaceAll("\\u00a0", "").split(",")));
 		return mi;
 	}
 	
