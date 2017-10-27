@@ -101,9 +101,9 @@ public class SQLHandler {
 			c = Main.getConnection();
 			stmt = c.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT json_agg(\"" + MENU_TABLE_NAME + "\") FROM \"" + MENU_TABLE_NAME + "\";");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM \"" + MENU_TABLE_NAME + "\";");
 			
-			/*
+			
 			//sql to json
 			json = new JSONArray();
 			ResultSetMetaData rsmd = rs.getMetaData();
@@ -113,7 +113,7 @@ public class SQLHandler {
 			  for (int i=1; i<=numColumns; i++) {
 			    String column_name = rsmd.getColumnName(i);
 			    if(rsmd.getColumnType(i) == Types.ARRAY) {
-			    	obj.put(column_name, rs.getArray(column_name));
+			    	obj.put(column_name, rs.getArray(column_name).toString().replaceAll("{", "[").replaceAll("}","]"));
 			    }
 			    else{
 			    	obj.put(column_name, rs.getObject(column_name));
@@ -121,11 +121,8 @@ public class SQLHandler {
 			  }
 			  json.put(obj);
 			}
-			*/
-			rs.next();
 			
-			System.out.println(rs.getMetaData());
-			json = new JSONArray(rs.getObject(0));
+			
 			
 			rs.close();
 			stmt.close();
