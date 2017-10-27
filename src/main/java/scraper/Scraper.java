@@ -34,9 +34,7 @@ public class Scraper {
 	public static void addAllMenuItems(SQLHandler handler) throws Exception {
 		ArrayList<String> URLs = getRestaurantURLs();
 		
-		for(int i=0; i<URLs.size(); i++) {
-			URLs = getRestaurantURLs(); //req because the menu items time out often
-			String s = URLs.get(i);
+		for(String s : URLs) {
 			ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 			menuItems.addAll(downloadMenuItems(s));
 			handler.addMenuItems(menuItems);
