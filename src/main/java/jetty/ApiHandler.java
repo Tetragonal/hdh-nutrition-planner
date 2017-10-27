@@ -30,11 +30,12 @@ public class ApiHandler extends AbstractHandler {
 		// Declare response encoding and types
 		response.setContentType("text/html; charset=utf-8");
 
-		// Declare response status code
-		response.setStatus(HttpServletResponse.SC_OK);
-
 		// Write back response
 		if ("POST".equalsIgnoreCase(request.getMethod())) {
+			// Declare response status code
+			response.setStatus(HttpServletResponse.SC_OK);
+			
+			
 			String resultString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 			System.out.println("Received \n" + resultString);
 			JSONObject result = new JSONObject(resultString);
