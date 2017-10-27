@@ -30,16 +30,17 @@ public class Scraper {
 		}		
 	}
 	
-	public static ArrayList<MenuItem> downloadAllMenuItems() throws Exception {
+	public static void addAllMenuItems(SQLHandler handler) throws Exception {
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);  //turn off HtmlUnit logging
-		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 		ArrayList<String> URLs = getRestaurantURLs();
 		
 		for(String s : URLs) {
+			ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 			menuItems.addAll(downloadMenuItems(s));
+			handler.addMenuItems(menuItems);
+			System.out.println("Done with " + menuItems.get(0).name);
 		}
 		
-		return menuItems;
 	}
 	
 	public static ArrayList<MenuItem> downloadMenuItems(String restaurantLink) throws Exception {
@@ -83,7 +84,7 @@ public class Scraper {
 	    return menuItems;
 	}
 	
-	public static MenuItem getMenuItem(String restaurant, String extension, double cost) throws IOException {
+	public static MenuItem getMenuItem(String restaurant, String extension, double cost) throws Exception {
 		MenuItem mi = new MenuItem();
 		mi.restaurant = restaurant;
 		mi.cost = cost;
@@ -96,9 +97,13 @@ public class Scraper {
 		Elements nutritionTableRows = doc.getElementById("tblNutritionDetails").child(0).children();
 		
 		mi.fat = Double.parseDouble(nutritionTableRows.get(1).child(0).ownText().replace("g", ""));
+		
 		mi.carb = Double.parseDouble(nutritionTableRows.get(1).child(2).ownText().replace("g", ""));
-		mi.satFat = Double.parseDouble(nutritionTableRows.get(2).child(0).text().replace("g", "").replace("Sat. Fat", "").replaceAll("\\u00a0", ""));
-		mi.fiber = Double.parseDouble(nutritionTableRows.get(2).child(2).text().replace("g", "").replace("Dietary Fiber", "").replaceAll("\\u00a0", ""));
+		try {
+			mi.satFat = Double.parseDouble(nutritionTableRows.get(2).child(0).text().replace("g", "").replace("Sat. Fat", "").replaceAll("\\u00a0", ""));
+		}catch (NumberFormatException nfe){
+			mi.satFat = 0;
+		}mi.fiber = Double.parseDouble(nutritionTableRows.get(2).child(2).text().replace("g", "").replace("Dietary Fiber", "").replaceAll("\\u00a0", ""));
 		try {
 			mi.transFat = Double.parseDouble(nutritionTableRows.get(3).children().get(0).ownText().replace("g", "").replace("Trans Fat", "").replaceAll("\\u00a0", ""));
 		}catch (NumberFormatException nfe){

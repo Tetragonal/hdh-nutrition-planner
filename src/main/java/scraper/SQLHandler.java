@@ -129,6 +129,6 @@ public class SQLHandler {
 	
 	public void updateMenuItems() throws Exception {
 		resetDatabase(RESET_PASSWORD);
-		addMenuItems(Scraper.downloadAllMenuItems());
+		Scraper.addAllMenuItems(this);
 	}
 }
