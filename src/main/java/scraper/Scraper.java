@@ -25,15 +25,17 @@ public class Scraper {
 	//testing purposes
 	public static void main(String args[]) throws Exception {
 		ArrayList<String> URLs = getRestaurantURLs();
+		System.out.println(URLs);
+		/*
 		ArrayList<MenuItem> menuItems = downloadMenuItems(URLs.get(0));
 		for(MenuItem m : menuItems) {
 			System.out.println(m);
 		}		
+		*/
 	}
 	
 	public static void addAllMenuItems(SQLHandler handler) throws Exception {
 		ArrayList<String> URLs = getRestaurantURLs();
-		
 		for(String s : URLs) {
 			ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 			menuItems.addAll(downloadMenuItems(s));
@@ -54,6 +56,9 @@ public class Scraper {
 	        	System.out.println("Loading day");
 	        	//sunday = 1, monday = 2, etc
 		        List<HtmlElement> aElements = page.getElementById("MenuListing_divRestaurants").getElementsByTagName("a");
+		        if(aElements.size() == 0) {
+		        	aElements = page.getElementById("MenuListing_divSpecialtyRestaurants").getElementsByTagName("a");
+		        }
 		        for(HtmlElement dm : aElements) {
 		        	MenuItem mi = null;
 		        	try {
@@ -97,7 +102,7 @@ public class Scraper {
 		mi.restaurant = restaurant;
 		mi.cost = cost;
 		
-		Document doc = Jsoup.connect(DINING_MENU_URL+extension).userAgent("Mozilla").get();
+		Document doc = Jsoup.connect(DINING_MENU_URL+extension).userAgent("Chrome").get();
 
 		mi.name = doc.getElementById("lblItemHeader").ownText();
 		mi.calories = Integer.parseInt(doc.getElementById("tblFacts").child(0).child(2).child(0).child(0).text().replaceAll("[^\\d]", "").replaceAll("\\u00a0", ""));
