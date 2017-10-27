@@ -27,11 +27,12 @@ public class ApiHandler extends AbstractHandler {
 	public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		System.out.println("Received request");
-		// Declare response encoding and types
-		response.setContentType("text/html; charset=utf-8");
 
 		// Write back response
 		if ("POST".equalsIgnoreCase(request.getMethod())) {
+
+			// Declare response encoding and types
+			response.setContentType("text/html; charset=utf-8");
 			// Declare response status code
 			response.setStatus(HttpServletResponse.SC_OK);
 			

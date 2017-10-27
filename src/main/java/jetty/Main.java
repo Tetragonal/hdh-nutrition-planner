@@ -30,7 +30,7 @@ public class Main {
         
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[] {resource_handler, apiContext, new DefaultHandler()});
-        server.setHandler(handlers);
+        server.setHandler(resource_handler);
 
         System.out.println("Server started on port " + args[0]);
         
