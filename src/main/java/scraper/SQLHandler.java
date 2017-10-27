@@ -122,7 +122,7 @@ public class SQLHandler {
 			  json.put(obj);
 			}
 			*/
-			
+			rs.next();
 			System.out.println(rs.getObject(0));
 			json = new JSONArray(rs.getObject(0));
 			
