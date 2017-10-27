@@ -123,7 +123,8 @@ public class SQLHandler {
 			}
 			*/
 			rs.next();
-			System.out.println(rs.getObject(0));
+			
+			System.out.println(rs.getMetaData());
 			json = new JSONArray(rs.getObject(0));
 			
 			rs.close();
