@@ -89,6 +89,8 @@ public class ApiHandler extends AbstractHandler {
 				// Inform jetty that this request has now been handled
 				baseRequest.setHandled(true);
 			}
+		}else {
+			System.out.println(request.getMethod());
 		}
 	}
 
