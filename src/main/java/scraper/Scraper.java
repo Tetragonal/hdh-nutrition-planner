@@ -57,8 +57,13 @@ public class Scraper {
 		        for(HtmlElement dm : aElements) {
 		        	MenuItem mi = null;
 		        	try {
-		        		mi = getMenuItem(page.getElementById("HoursLocations_locationName").getTextContent(), dm.getAttribute("href"), Double.parseDouble(dm.getTextContent().substring(dm.getTextContent().indexOf("($")).replace(")", "").replace("($", "")));
-			        	//only add if the list doesn't have 
+		        		try {
+		        			mi = getMenuItem(page.getElementById("HoursLocations_locationName").getTextContent(), dm.getAttribute("href"), Double.parseDouble(dm.getTextContent().substring(dm.getTextContent().indexOf("($")).replace(")", "").replace("($", "")));
+		        		}catch(StringIndexOutOfBoundsException e) {
+		        			//cost not listed
+		        			mi = getMenuItem(page.getElementById("HoursLocations_locationName").getTextContent(), dm.getAttribute("href"), -1);
+		        		}
+		        		//only add if the list doesn't have 
 			        	boolean contains = false;
 			        	for(int j=0; j<menuItems.size(); j++) {
 			        		MenuItem tempMi = menuItems.get(j); //gets jth menu item
