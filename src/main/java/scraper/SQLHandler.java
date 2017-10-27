@@ -101,7 +101,7 @@ public class SQLHandler {
 			c = Main.getConnection();
 			stmt = c.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT json_agg(\"" + MENU_TABLE_NAME + ") FROM \"" + MENU_TABLE_NAME + "\";");
+			ResultSet rs = stmt.executeQuery("SELECT json_agg(\"" + MENU_TABLE_NAME + "\") FROM \"" + MENU_TABLE_NAME + "\";");
 			
 			/*
 			//sql to json
