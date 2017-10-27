@@ -102,7 +102,7 @@ public class SQLHandler {
 			stmt = c.createStatement();
 
 			ResultSet rs = stmt.executeQuery("SELECT json_agg(\"" + MENU_TABLE_NAME + "FROM \"" + MENU_TABLE_NAME + "\";");
-				
+			
 			/*
 			//sql to json
 			json = new JSONArray();
@@ -123,8 +123,8 @@ public class SQLHandler {
 			}
 			*/
 			
-			System.out.println(rs.getString(0));
-			json = new JSONArray(rs.getString(0));
+			System.out.println(rs.getObject(0));
+			json = new JSONArray(rs.getObject(0));
 			
 			rs.close();
 			stmt.close();
