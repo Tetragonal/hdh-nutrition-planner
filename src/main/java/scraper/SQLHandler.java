@@ -59,7 +59,7 @@ public class SQLHandler {
 					+ "cholesterol, sodium, carbohydrates, fiber, sugars, protein, allergens,"
 					+ " monday, tuesday, wednesday, thursday, friday, saturday, sunday) "
 
-					+ "VALUES (" + "'" + mi.name + "'," + "'" + mi.restaurant + "'," + "'" + mi.cost + "'," + "'"
+					+ "VALUES (" + "'" + mi.name.replace("\'", "\'\'") + "'," + "'" + mi.restaurant.replace("\'", "\'\'") + "'," + "'" + mi.cost + "'," + "'"
 					+ mi.calories + "'," + "'" + mi.fat + "'," + "'" + mi.satFat + "'," + "'" + mi.transFat + "'," + "'"
 					+ mi.cholesterol + "'," + "'" + mi.sodium + "'," + "'" + mi.carb + "'," + "'" + mi.fiber + "',"
 					+ "'" + mi.sugars + "'," + "'" + mi.protein + "'," + "'" + array + "'," + "'" + mi.monday + "',"
