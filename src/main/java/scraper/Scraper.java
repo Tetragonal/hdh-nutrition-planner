@@ -46,6 +46,7 @@ public class Scraper {
 				handler.addMenuItems(menuItems, menuTableName);
 				System.out.println("Done with " + menuItems.get(0).restaurant);
 			} catch (Exception e) {
+				e.printStackTrace(System.out);
 				System.out.println("Couldnt add");
 			}
 		}
