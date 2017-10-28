@@ -42,7 +42,6 @@ public class Scraper {
 			try {
 				menuItems.addAll(downloadMenuItems(s));
 				handler.addMenuItems(menuItems, menuTableName);
-				System.out.println(menuItems.size());
 				System.out.println("Done with " + menuItems.get(0).restaurant);
 			} catch (Exception e) {
 				e.printStackTrace(System.out);
@@ -78,7 +77,6 @@ public class Scraper {
 						if (aElements == null || aElements.size() == 0) {
 							aElements = page.getElementById("MenuListing_divSpecialtyRestaurants")
 									.getElementsByTagName("a");
-							System.out.println(aElements + " " + page.getUrl());
 						}
 					} catch (Exception e2) {
 						e2.printStackTrace(System.out);
@@ -103,6 +101,10 @@ public class Scraper {
 											page.getElementById("HoursLocations_locationName").getTextContent(),
 											dm.getAttribute("href"), -1);
 									System.out.println("cost not listed for " + mi.name + " in " + mi.restaurant);
+								}
+								//print only on first item
+								if(menuItems.get().size() == 0) {
+									System.out.println("Starting on restaurant " + mi.restaurant);
 								}
 								// only add if the list doesn't have
 								boolean contains = false;
