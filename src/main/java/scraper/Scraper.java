@@ -1,5 +1,6 @@
 package scraper;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -10,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -39,15 +41,16 @@ public class Scraper {
 			ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 			try {
 				menuItems.addAll(downloadMenuItems(s));
-			}catch(Exception e) {
 				handler.addMenuItems(menuItems, menuTableName);
 				System.out.println("Done with " + menuItems.get(0).restaurant);
+			}catch(Exception e) {
+				System.out.println("Couldnt add");
 			}
 		}
 		
 	}
 	
-	public static ArrayList<MenuItem> downloadMenuItems(String restaurantLink) throws Exception {
+	public static ArrayList<MenuItem> downloadMenuItems(String restaurantLink) {
 		int loaded = 0;
 		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 	    try (WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
@@ -96,7 +99,16 @@ public class Scraper {
 		        page = nextButton.click();
 		     
 	        }
-	    }
+	    } catch (FailingHttpStatusCodeException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	    return menuItems;
 	}
 	
