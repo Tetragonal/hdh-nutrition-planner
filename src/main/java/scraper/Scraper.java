@@ -18,7 +18,6 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class Scraper {
@@ -56,22 +55,31 @@ public class Scraper {
 	public static ArrayList<MenuItem> downloadMenuItems(String restaurantLink) {
 		// few threads to speed stuff up
 		ExecutorService exec = Executors.newFixedThreadPool(15);
-		AtomicReference<Integer> loaded = new AtomicReference(new Integer(0));
+		AtomicReference<Integer> loaded = new AtomicReference<Integer>(new Integer(0));
 		AtomicReference<ArrayList<MenuItem>> menuItems = new AtomicReference<ArrayList<MenuItem>>(new ArrayList<MenuItem>());
 		HtmlPage page;
 		try (WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
 			page = (webClient.getPage(DINING_MENU_URL + restaurantLink));
 			int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-
+			
 			// click button to go to next day
 			for (AtomicReference<Integer> i = new AtomicReference<Integer>(0); i.get() < DAYS_IN_WEEK; i
 					.set(i.get() + 1)) {
 				System.out.println("Loading day");
 				// sunday = 1, monday = 2, etc
-				List<HtmlElement> aElements = page.getElementById("MenuListing_divRestaurants")
+				List<HtmlElement> aElements = null;
+				try {
+					aElements = page.getElementById("MenuListing_divRestaurants")
 						.getElementsByTagName("a");
-				if (aElements == null || aElements.size() == 0) {
-					aElements = page.getElementById("MenuListing_divSpecialtyRestaurants").getElementsByTagName("a");
+				}catch (Exception e) {
+					System.out.println("Either loading specialty restaurant or something went wrong");
+					try {
+						if (aElements == null) {
+							aElements = page.getElementById("MenuListing_divSpecialtyRestaurants").getElementsByTagName("a");
+						}
+					}catch(Exception e2) {
+						e2.printStackTrace(System.out);
+					}
 				}
 				for (HtmlElement dm : aElements) {
 					exec.execute(new RunnableScraper(page) {
@@ -88,10 +96,10 @@ public class Scraper {
 															.replace(")", "").replace("($", "")));
 								} catch (StringIndexOutOfBoundsException e) {
 									// cost not listed
-									System.out.println("cost not listed");
 									mi = getMenuItem(
 											page.getElementById("HoursLocations_locationName").getTextContent(),
 											dm.getAttribute("href"), -1);
+									System.out.println("cost not listed for " + mi.name + " in " + mi.restaurant);
 								}
 								// only add if the list doesn't have
 								boolean contains = false;
