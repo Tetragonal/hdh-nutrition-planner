@@ -1,10 +1,14 @@
 package scraper;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,84 +26,105 @@ public class Scraper {
 	private static final String RESTAURANT_EXTENSION_URL = "default.aspx?i=";
 
 	private static final int DAYS_IN_WEEK = 7;
-	
-	//testing purposes
+
+	// testing purposes
 	public static void main(String args[]) throws Exception {
 		ArrayList<String> URLs = getRestaurantURLs();
 		System.out.println(URLs);
 		/*
-		ArrayList<MenuItem> menuItems = downloadMenuItems(URLs.get(0));
-		for(MenuItem m : menuItems) {
-			System.out.println(m);
-		}		
-		*/
+		 * ArrayList<MenuItem> menuItems = downloadMenuItems(URLs.get(0)); for(MenuItem
+		 * m : menuItems) { System.out.println(m); }
+		 */
 	}
-	
+
 	public static void addAllMenuItems(SQLHandler handler, String menuTableName) throws IOException {
 		ArrayList<String> URLs = getRestaurantURLs();
-		for(String s : URLs) {
+		for (String s : URLs) {
 			ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 			try {
 				menuItems.addAll(downloadMenuItems(s));
 				handler.addMenuItems(menuItems, menuTableName);
 				System.out.println("Done with " + menuItems.get(0).restaurant);
-			}catch(Exception e) {
+			} catch (Exception e) {
 				System.out.println("Couldnt add");
 			}
 		}
-		
+
 	}
-	
+
 	public static ArrayList<MenuItem> downloadMenuItems(String restaurantLink) {
-		int loaded = 0;
+		AtomicReference<Integer> loaded = new AtomicReference<Integer>(0);
 		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
-	    try (WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
-	        HtmlPage page = webClient.getPage(DINING_MENU_URL + restaurantLink);
-	        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-	        //click button to go to next day
-	        for(int i=0; i<DAYS_IN_WEEK; i++) {
-	        	System.out.println("Loading day");
-	        	//sunday = 1, monday = 2, etc
-		        List<HtmlElement> aElements = page.getElementById("MenuListing_divRestaurants").getElementsByTagName("a");
-		        if(aElements == null || aElements.size() == 0) {
-		        	aElements = page.getElementById("MenuListing_divSpecialtyRestaurants").getElementsByTagName("a");
-		        }
-		        for(HtmlElement dm : aElements) {
-		        	MenuItem mi = null;
-		        	try {
-		        		try {
-		        			mi = getMenuItem(page.getElementById("HoursLocations_locationName").getTextContent(), dm.getAttribute("href"), Double.parseDouble(dm.getTextContent().substring(dm.getTextContent().indexOf("($")).replace(")", "").replace("($", "")));
-		        		}catch(StringIndexOutOfBoundsException e) {
-		        			//cost not listed
-		        			System.out.println("cost not listed");
-		        			mi = getMenuItem(page.getElementById("HoursLocations_locationName").getTextContent(), dm.getAttribute("href"), -1);
-		        		}
-		        		//only add if the list doesn't have 
-			        	boolean contains = false;
-			        	for(int j=0; j<menuItems.size(); j++) {
-			        		MenuItem tempMi = menuItems.get(j); //gets jth menu item
-			        		if(tempMi.equals(mi)) {
-			        			tempMi.addDay((dayOfWeek+i-1)%DAYS_IN_WEEK+1);
-			        			contains = true;
-			        			break;
-			        		}
-			        	}
-			        	if(!contains) {
-			        		menuItems.add(mi);
-			        	}
-			        	loaded++;
-		        	}catch(Exception e) {
-		        		System.out.println("Failed to load menu item (successfully loaded the last " + loaded + ")");
-		        		e.printStackTrace(System.out);
-		        		loaded = 0;
-		        	}
-		        }
-		        
-		        HtmlInput nextButton = (HtmlInput) page.getElementById("MenuListing_imgRightArrowSpecial");
-		        page = nextButton.click();
-		     
-	        }
-	    } catch (FailingHttpStatusCodeException e1) {
+		HtmlPage page;
+		try (WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
+			page = (webClient.getPage(DINING_MENU_URL + restaurantLink));
+			int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+			// few threads to speed stuff up
+			ExecutorService exec = Executors.newFixedThreadPool(15);
+
+			// click button to go to next day
+			for (AtomicReference<Integer> i = new AtomicReference<Integer>(0); i.get() < DAYS_IN_WEEK; i
+					.set(i.get() + 1)) {
+				System.out.println("Loading day");
+				// sunday = 1, monday = 2, etc
+				List<HtmlElement> aElements = page.getElementById("MenuListing_divRestaurants")
+						.getElementsByTagName("a");
+				if (aElements == null || aElements.size() == 0) {
+					aElements = page.getElementById("MenuListing_divSpecialtyRestaurants").getElementsByTagName("a");
+				}
+				for (HtmlElement dm : aElements) {
+					exec.execute(new RunnableScraper(page) {
+						@Override
+						public void run() {
+							MenuItem mi = null;
+							try {
+								try {
+									mi = getMenuItem(
+											page.getElementById("HoursLocations_locationName").getTextContent(),
+											dm.getAttribute("href"),
+											Double.parseDouble(
+													dm.getTextContent().substring(dm.getTextContent().indexOf("($"))
+															.replace(")", "").replace("($", "")));
+								} catch (StringIndexOutOfBoundsException e) {
+									// cost not listed
+									System.out.println("cost not listed");
+									mi = getMenuItem(
+											page.getElementById("HoursLocations_locationName").getTextContent(),
+											dm.getAttribute("href"), -1);
+								}
+								// only add if the list doesn't have
+								boolean contains = false;
+								for (int j = 0; j < menuItems.size(); j++) {
+									MenuItem tempMi = menuItems.get(j); // gets jth menu item
+									if (tempMi.equals(mi)) {
+										tempMi.addDay((dayOfWeek + i.get() - 1) % DAYS_IN_WEEK + 1);
+										contains = true;
+										break;
+									}
+								}
+								if (!contains) {
+									menuItems.add(mi);
+								}
+								loaded.set(loaded.get() + 1);
+							} catch (Exception e) {
+								System.out.println(
+										"Failed to load menu item (successfully loaded the last " + loaded + ")");
+								e.printStackTrace(System.out);
+								loaded.set(0);
+							}
+						}
+					});
+
+				}
+
+				HtmlInput nextButton = (HtmlInput) page.getElementById("MenuListing_imgRightArrowSpecial");
+				page = nextButton.click();
+
+				exec.shutdown();
+				while (!exec.isTerminated()) {
+				} // wait for termination
+			}
+		} catch (FailingHttpStatusCodeException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (MalformedURLException e1) {
@@ -109,55 +134,65 @@ public class Scraper {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-	    return menuItems;
+		return menuItems;
 	}
-	
+
 	public static MenuItem getMenuItem(String restaurant, String extension, double cost) throws Exception {
 		MenuItem mi = new MenuItem();
 		mi.restaurant = restaurant;
 		mi.cost = cost;
-		
-		Document doc = Jsoup.connect(DINING_MENU_URL+extension).userAgent("Chrome").get();
+
+		Document doc = Jsoup.connect(DINING_MENU_URL + extension).userAgent("Chrome").get();
 
 		mi.name = doc.getElementById("lblItemHeader").ownText();
-		mi.calories = Integer.parseInt(doc.getElementById("tblFacts").child(0).child(2).child(0).child(0).text().replaceAll("[^\\d]", "").replaceAll("\\u00a0", ""));
-		
+		mi.calories = Integer.parseInt(doc.getElementById("tblFacts").child(0).child(2).child(0).child(0).text()
+				.replaceAll("[^\\d]", "").replaceAll("\\u00a0", ""));
+
 		Elements nutritionTableRows = doc.getElementById("tblNutritionDetails").child(0).children();
-		
+
 		mi.fat = Double.parseDouble(nutritionTableRows.get(1).child(0).ownText().replace("g", ""));
-		
+
 		mi.carb = Double.parseDouble(nutritionTableRows.get(1).child(2).ownText().replace("g", ""));
 		try {
-			mi.satFat = Double.parseDouble(nutritionTableRows.get(2).child(0).text().replace("g", "").replace("Sat. Fat", "").replaceAll("\\u00a0", ""));
-		}catch (NumberFormatException nfe){
+			mi.satFat = Double.parseDouble(nutritionTableRows.get(2).child(0).text().replace("g", "")
+					.replace("Sat. Fat", "").replaceAll("\\u00a0", ""));
+		} catch (NumberFormatException nfe) {
 			mi.satFat = 0;
-		}mi.fiber = Double.parseDouble(nutritionTableRows.get(2).child(2).text().replace("g", "").replace("Dietary Fiber", "").replaceAll("\\u00a0", ""));
+		}
+		mi.fiber = Double.parseDouble(nutritionTableRows.get(2).child(2).text().replace("g", "")
+				.replace("Dietary Fiber", "").replaceAll("\\u00a0", ""));
 		try {
-			mi.transFat = Double.parseDouble(nutritionTableRows.get(3).children().get(0).ownText().replace("g", "").replace("Trans Fat", "").replaceAll("\\u00a0", ""));
-		}catch (NumberFormatException nfe){
+			mi.transFat = Double.parseDouble(nutritionTableRows.get(3).children().get(0).ownText().replace("g", "")
+					.replace("Trans Fat", "").replaceAll("\\u00a0", ""));
+		} catch (NumberFormatException nfe) {
 			mi.transFat = 0;
 		}
-		mi.sugars = Double.parseDouble(nutritionTableRows.get(3).child(2).ownText().replace("Sugars", "").replace("g", "").replaceAll("\\u00a0", ""));
-		mi.cholesterol = Double.parseDouble(nutritionTableRows.get(4).child(0).ownText().replace("mg", "").replace("Cholesterol", "").replaceAll("\\u00a0", ""));
-		mi.protein = Double.parseDouble(nutritionTableRows.get(4).child(2).ownText().replace("g", "").replace("Protein", "").replaceAll("\\u00a0", ""));
-		mi.sodium = Double.parseDouble(nutritionTableRows.get(5).child(0).ownText().replace("mg", "").replace("Sodium", "").replaceAll("\\u00a0", ""));
-		
-		mi.allergens = new ArrayList<String>(Arrays.asList(doc.getElementById("lblAllergens").ownText().replaceAll("\\s+", "").split(",")));
+		mi.sugars = Double.parseDouble(nutritionTableRows.get(3).child(2).ownText().replace("Sugars", "")
+				.replace("g", "").replaceAll("\\u00a0", ""));
+		mi.cholesterol = Double.parseDouble(nutritionTableRows.get(4).child(0).ownText().replace("mg", "")
+				.replace("Cholesterol", "").replaceAll("\\u00a0", ""));
+		mi.protein = Double.parseDouble(nutritionTableRows.get(4).child(2).ownText().replace("g", "")
+				.replace("Protein", "").replaceAll("\\u00a0", ""));
+		mi.sodium = Double.parseDouble(nutritionTableRows.get(5).child(0).ownText().replace("mg", "")
+				.replace("Sodium", "").replaceAll("\\u00a0", ""));
+
+		mi.allergens = new ArrayList<String>(
+				Arrays.asList(doc.getElementById("lblAllergens").ownText().replaceAll("\\s+", "").split(",")));
 		return mi;
 	}
-	
-	public static ArrayList<String> getRestaurantURLs() throws IOException{
+
+	public static ArrayList<String> getRestaurantURLs() throws IOException {
 		ArrayList<String> restaurantURLs = new ArrayList<String>();
-		
+
 		Document doc = Jsoup.connect(DINING_MENU_URL).get();
 		Elements newsHeadlines = doc.select("#topnav a");
-		for(int i = 0; i < newsHeadlines.size(); i++) {
+		for (int i = 0; i < newsHeadlines.size(); i++) {
 			String link = newsHeadlines.get(i).attr("href");
-			if(link.contains(RESTAURANT_EXTENSION_URL)) {
+			if (link.contains(RESTAURANT_EXTENSION_URL)) {
 				restaurantURLs.add(link);
 			}
 		}
-		
+
 		return restaurantURLs;
 	}
 }
