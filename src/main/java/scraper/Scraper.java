@@ -33,13 +33,16 @@ public class Scraper {
 		*/
 	}
 	
-	public static void addAllMenuItems(SQLHandler handler, String menuTableName) throws Exception {
+	public static void addAllMenuItems(SQLHandler handler, String menuTableName) throws IOException {
 		ArrayList<String> URLs = getRestaurantURLs();
 		for(String s : URLs) {
 			ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
-			menuItems.addAll(downloadMenuItems(s));
-			handler.addMenuItems(menuItems, menuTableName);
-			System.out.println("Done with " + menuItems.get(0).restaurant);
+			try {
+				menuItems.addAll(downloadMenuItems(s));
+			}catch(Exception e) {
+				handler.addMenuItems(menuItems, menuTableName);
+				System.out.println("Done with " + menuItems.get(0).restaurant);
+			}
 		}
 		
 	}
