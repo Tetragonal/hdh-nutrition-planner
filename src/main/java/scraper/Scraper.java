@@ -65,8 +65,7 @@ public class Scraper {
 			int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
 			// click button to go to next day
-			for (AtomicReference<Integer> i = new AtomicReference<Integer>(0); i.get() < DAYS_IN_WEEK; i
-					.set(i.get() + 1)) {
+			for (int i = 0; i < DAYS_IN_WEEK; i++) {
 				System.out.println("Loading day");
 				// sunday = 1, monday = 2, etc
 				List<HtmlElement> aElements = null;
@@ -78,14 +77,14 @@ public class Scraper {
 						if (aElements == null || aElements.size() == 0) {
 							aElements = page.getElementById("MenuListing_divSpecialtyRestaurants")
 									.getElementsByTagName("a");
-							System.out.println(aElements);
+							System.out.println(aElements + " " + page.getUrl());
 						}
 					} catch (Exception e2) {
 						e2.printStackTrace(System.out);
 					}
 				}
 				for (HtmlElement dm : aElements) {
-					exec.execute(new RunnableScraper(page) {
+					exec.execute(new RunnableScraper(page, i) {
 						@Override
 						public void run() {
 							MenuItem mi = null;
@@ -109,7 +108,7 @@ public class Scraper {
 								for (int j = 0; j < menuItems.get().size(); j++) {
 									MenuItem tempMi = menuItems.get().get(j); // gets jth menu item
 									if (tempMi.equals(mi)) {
-										tempMi.addDay((dayOfWeek + i.get() - 1) % DAYS_IN_WEEK + 1);
+										tempMi.addDay((dayOfWeek + day - 1) % DAYS_IN_WEEK + 1);
 										contains = true;
 										break;
 									}
