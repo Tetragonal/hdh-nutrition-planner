@@ -1,7 +1,6 @@
 package scraper;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -15,9 +14,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class Scraper {
@@ -60,6 +59,7 @@ public class Scraper {
 		AtomicReference<ArrayList<MenuItem>> menuItems = new AtomicReference<ArrayList<MenuItem>>(
 				new ArrayList<MenuItem>());
 		HtmlPage page;
+		boolean specialty = false;
 		try (WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
 			page = (webClient.getPage(DINING_MENU_URL + restaurantLink));
 			int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
@@ -73,6 +73,7 @@ public class Scraper {
 					aElements = page.getElementById("MenuListing_divRestaurants").getElementsByTagName("a");
 				} catch (Exception e) {
 					System.out.println("Either loading specialty restaurant or something went wrong");
+					specialty = true;
 					try {
 						if (aElements == null || aElements.size() == 0) {
 							aElements = page.getElementById("MenuListing_divSpecialtyRestaurants")
@@ -128,6 +129,13 @@ public class Scraper {
 						}
 					});
 				}
+				HtmlInput nextButton = null;
+				if(!specialty) {
+					nextButton = (HtmlInput) page.getElementById("MenuListing_imgRightArrowSpecial");
+				}else {
+					nextButton = (HtmlInput) page.getElementById("MenuListing_imgRightArrowSpecialtyRest");
+				}
+		        page = nextButton.click();
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace(System.out);
