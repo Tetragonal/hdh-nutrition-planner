@@ -43,6 +43,7 @@ public class Scraper {
 			try {
 				menuItems.addAll(downloadMenuItems(s));
 				handler.addMenuItems(menuItems, menuTableName);
+				System.out.println(menuItems.size());
 				System.out.println("Done with " + menuItems.get(0).restaurant);
 			} catch (Exception e) {
 				e.printStackTrace(System.out);
@@ -56,12 +57,13 @@ public class Scraper {
 		// few threads to speed stuff up
 		ExecutorService exec = Executors.newFixedThreadPool(15);
 		AtomicReference<Integer> loaded = new AtomicReference<Integer>(new Integer(0));
-		AtomicReference<ArrayList<MenuItem>> menuItems = new AtomicReference<ArrayList<MenuItem>>(new ArrayList<MenuItem>());
+		AtomicReference<ArrayList<MenuItem>> menuItems = new AtomicReference<ArrayList<MenuItem>>(
+				new ArrayList<MenuItem>());
 		HtmlPage page;
 		try (WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
 			page = (webClient.getPage(DINING_MENU_URL + restaurantLink));
 			int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-			
+
 			// click button to go to next day
 			for (AtomicReference<Integer> i = new AtomicReference<Integer>(0); i.get() < DAYS_IN_WEEK; i
 					.set(i.get() + 1)) {
@@ -69,15 +71,16 @@ public class Scraper {
 				// sunday = 1, monday = 2, etc
 				List<HtmlElement> aElements = null;
 				try {
-					aElements = page.getElementById("MenuListing_divRestaurants")
-						.getElementsByTagName("a");
-				}catch (Exception e) {
+					aElements = page.getElementById("MenuListing_divRestaurants").getElementsByTagName("a");
+				} catch (Exception e) {
 					System.out.println("Either loading specialty restaurant or something went wrong");
 					try {
-						if (aElements == null) {
-							aElements = page.getElementById("MenuListing_divSpecialtyRestaurants").getElementsByTagName("a");
+						if (aElements == null || aElements.size() == 0) {
+							aElements = page.getElementById("MenuListing_divSpecialtyRestaurants")
+									.getElementsByTagName("a");
+							System.out.println(aElements);
 						}
-					}catch(Exception e2) {
+					} catch (Exception e2) {
 						e2.printStackTrace(System.out);
 					}
 				}
@@ -115,20 +118,17 @@ public class Scraper {
 									menuItems.get().add(mi);
 								}
 								loaded.set(loaded.get() + 1);
-								
+
 							} catch (Exception e) {
 								System.out.println(
 										"Failed to load menu item (successfully loaded the last " + loaded + ")");
 								e.printStackTrace(System.out);
 								loaded.set(0);
-								
+
 							}
 						}
 					});
-
 				}
-
-
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace(System.out);
