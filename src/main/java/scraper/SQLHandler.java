@@ -140,16 +140,21 @@ public class SQLHandler {
 	}
 
 	public void updateMenuItems() throws Exception {
-		Main.isUpdating = true;
-		// add all items to temp table
-		resetTable(RESET_PASSWORD, MENU_TABLE_TEMP_NAME);
-		Scraper.addAllMenuItems(this, MENU_TABLE_TEMP_NAME);
-
-		// transfer all items from temp table to actual table
-		resetTable(RESET_PASSWORD, MENU_TABLE_NAME);
-		copyTable(MENU_TABLE_TEMP_NAME, MENU_TABLE_NAME);
-		
-		System.out.println("Done updating");
-		Main.isUpdating = false;
+		if(!Main.isUpdating) {
+			Main.isUpdating = true;
+			// add all items to temp table
+			resetTable(RESET_PASSWORD, MENU_TABLE_TEMP_NAME);
+			Scraper.addAllMenuItems(this, MENU_TABLE_TEMP_NAME);
+	
+			// transfer all items from temp table to actual table
+			resetTable(RESET_PASSWORD, MENU_TABLE_NAME);
+			copyTable(MENU_TABLE_TEMP_NAME, MENU_TABLE_NAME);
+			
+			System.out.println("Done updating");
+			Main.isUpdating = false;
+		}
+		else {
+			System.out.println("Received attempt to update, but already updating");
+		}
 	}
 }
