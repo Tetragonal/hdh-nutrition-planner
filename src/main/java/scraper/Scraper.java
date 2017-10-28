@@ -54,14 +54,14 @@ public class Scraper {
 	}
 
 	public static ArrayList<MenuItem> downloadMenuItems(String restaurantLink) {
+		// few threads to speed stuff up
+		ExecutorService exec = Executors.newFixedThreadPool(15);
 		AtomicReference<Integer> loaded = new AtomicReference(new Integer(0));
 		AtomicReference<ArrayList<MenuItem>> menuItems = new AtomicReference<ArrayList<MenuItem>>(new ArrayList<MenuItem>());
 		HtmlPage page;
 		try (WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
 			page = (webClient.getPage(DINING_MENU_URL + restaurantLink));
 			int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-			// few threads to speed stuff up
-			ExecutorService exec = Executors.newFixedThreadPool(15);
 
 			// click button to go to next day
 			for (AtomicReference<Integer> i = new AtomicReference<Integer>(0); i.get() < DAYS_IN_WEEK; i
@@ -107,25 +107,20 @@ public class Scraper {
 									menuItems.get().add(mi);
 								}
 								loaded.set(loaded.get() + 1);
-								;
+								
 							} catch (Exception e) {
 								System.out.println(
 										"Failed to load menu item (successfully loaded the last " + loaded + ")");
 								e.printStackTrace(System.out);
 								loaded.set(0);
-								;
+								
 							}
 						}
 					});
 
 				}
 
-				HtmlInput nextButton = (HtmlInput) page.getElementById("MenuListing_imgRightArrowSpecial");
-				page = nextButton.click();
 
-				exec.shutdown();
-				while (!exec.isTerminated()) {
-				} // wait for termination
 			}
 		} catch (FailingHttpStatusCodeException e1) {
 			// TODO Auto-generated catch block
@@ -136,6 +131,10 @@ public class Scraper {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		} finally {
+			exec.shutdown();
+			while (!exec.isTerminated()) {
+			} // wait for termination
 		}
 		return menuItems.get();
 	}
