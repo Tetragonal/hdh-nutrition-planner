@@ -53,8 +53,8 @@ public class Scraper {
 	}
 
 	public static ArrayList<MenuItem> downloadMenuItems(String restaurantLink) {
-		AtomicReference<Integer> loaded = new AtomicReference<Integer>(0);
-		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
+		AtomicReference<Integer> loaded = new AtomicReference(new Integer(0));
+		AtomicReference<ArrayList<MenuItem>> menuItems = new AtomicReference<ArrayList<MenuItem>>(new ArrayList<MenuItem>());
 		HtmlPage page;
 		try (WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
 			page = (webClient.getPage(DINING_MENU_URL + restaurantLink));
@@ -94,8 +94,8 @@ public class Scraper {
 								}
 								// only add if the list doesn't have
 								boolean contains = false;
-								for (int j = 0; j < menuItems.size(); j++) {
-									MenuItem tempMi = menuItems.get(j); // gets jth menu item
+								for (int j = 0; j < menuItems.get().size(); j++) {
+									MenuItem tempMi = menuItems.get().get(j); // gets jth menu item
 									if (tempMi.equals(mi)) {
 										tempMi.addDay((dayOfWeek + i.get() - 1) % DAYS_IN_WEEK + 1);
 										contains = true;
@@ -103,14 +103,16 @@ public class Scraper {
 									}
 								}
 								if (!contains) {
-									menuItems.add(mi);
+									menuItems.get().add(mi);
 								}
 								loaded.set(loaded.get() + 1);
+								;
 							} catch (Exception e) {
 								System.out.println(
 										"Failed to load menu item (successfully loaded the last " + loaded + ")");
 								e.printStackTrace(System.out);
 								loaded.set(0);
+								;
 							}
 						}
 					});
@@ -134,7 +136,7 @@ public class Scraper {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		return menuItems;
+		return menuItems.get();
 	}
 
 	public static MenuItem getMenuItem(String restaurant, String extension, double cost) throws Exception {
