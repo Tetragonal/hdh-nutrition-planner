@@ -211,7 +211,7 @@ public class SQLHandler {
 
 			rs.next();
 			System.out.println(rs.getMetaData().getColumnCount());
-			json = new JSONArray((String[]) rs.getArray(0).getArray());
+			json = new JSONArray((String[]) rs.getArray(1).getArray());
 			System.out.println(json);
 			rs.close();
 			stmt.close();
