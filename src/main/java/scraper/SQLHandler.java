@@ -118,6 +118,45 @@ public class SQLHandler {
 		return json;
 	}
 
+	public JSONArray getMenuItems(ArrayList<String> restaurants) {
+		Connection c = null;
+		Statement stmt = null;
+		JSONArray json = null;
+		try {
+			c = Main.getConnection();
+			stmt = c.createStatement();
+			for(String s : restaurants) {
+				ResultSet rs = stmt.executeQuery("SELECT * FROM \"" + MENU_TABLE_NAME + "\" WHERE restaurant = \'" + s + "\';");
+	
+				// sql to json
+				json = new JSONArray();
+				ResultSetMetaData rsmd = rs.getMetaData();
+				while (rs.next()) {
+					int numColumns = rsmd.getColumnCount();
+					JSONObject obj = new JSONObject();
+					for (int i = 1; i <= numColumns; i++) {
+						String column_name = rsmd.getColumnName(i);
+						if (rsmd.getColumnType(i) == Types.ARRAY) {
+							obj.put(column_name, new JSONArray((String[]) rs.getArray(column_name).getArray()));
+						} else {
+							obj.put(column_name, rs.getObject(column_name));
+						}
+					}
+					json.put(obj);
+				}
+				rs.close();
+			}
+			stmt.close();
+			c.close();
+
+			System.out.println("Retrieved menu items");
+		} catch (Exception e) {
+			System.out.println(e.getClass() + ": " + e.getMessage());
+		}
+
+		return json;
+	}
+	
 	public void copyTable(String tableOrig, String tableDest) {
 		Connection c = null;
 		Statement stmt = null;

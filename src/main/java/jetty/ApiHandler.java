@@ -1,6 +1,7 @@
 package jetty;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -55,23 +56,37 @@ public class ApiHandler extends AbstractHandler {
 					sqlHandler.resetTable(password, SQLHandler.MENU_TABLE_NAME);
 					break;
 				case "update":
+					parsedResult.put("updating", Main.isUpdating);
 					Thread t = new Thread(new Runnable() {
 				         @Override
 				         public void run() {
 				        	 try {
 								sqlHandler.updateMenuItems();
 							} catch (Exception e) {
-								e.printStackTrace();
+								e.printStackTrace(System.out);
 							}
 				         }
 					});
 					t.start();
 					break;
 				case "get":
-					parsedResult.put("menuData", sqlHandler.getMenuItems());
+					if(result.has("restaurants")) {
+						try {
+							ArrayList<String> restaurants = new ArrayList<String>();
+							for(int i=0; i<result.getJSONArray("restaurants").length(); i++) {
+								restaurants.add(result.getJSONArray("restaurants").getString(i));
+							}
+							parsedResult.put("menuData", sqlHandler.getMenuItems(restaurants));
+						}catch(Exception e) {
+							parsedResult.put("success", false);
+						}
+					}else {
+						parsedResult.put("menuData", sqlHandler.getMenuItems());
+					}
 					break;
 				case "status":
 					parsedResult.put("updating", Main.isUpdating);
+					break;
 				default:
 					parsedResult.put("success", false);
 					break;
