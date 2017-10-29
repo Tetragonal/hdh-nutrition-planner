@@ -207,7 +207,7 @@ public class SQLHandler {
 		try {
 			c = Main.getConnection();
 			stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT DISTINCT restaurant FROM \'" + MENU_TABLE_NAME + "\';");
+			ResultSet rs = stmt.executeQuery("SELECT DISTINCT restaurant FROM \"" + MENU_TABLE_NAME + "\";");
 
 			rs.next();
 			

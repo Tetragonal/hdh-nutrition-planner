@@ -78,6 +78,7 @@ public class ApiHandler extends AbstractHandler {
 							for(int i=0; i<result.getJSONArray("restaurants").length(); i++) {
 								restaurants.add(result.getJSONArray("restaurants").getString(i));
 							}
+							
 							parsedResult.put("menuData", sqlHandler.getMenuItems(restaurants));
 						}catch(Exception e) {
 							parsedResult.put("success", false);
