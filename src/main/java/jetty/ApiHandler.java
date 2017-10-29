@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import scraper.SQLHandler;
@@ -86,6 +87,9 @@ public class ApiHandler extends AbstractHandler {
 					break;
 				case "status":
 					parsedResult.put("updating", Main.isUpdating);
+					break;
+				case "restaurants":
+					parsedResult.put("restaurants", sqlHandler.getRestaurantNames());
 					break;
 				default:
 					parsedResult.put("success", false);

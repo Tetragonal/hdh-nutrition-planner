@@ -179,7 +179,6 @@ public class SQLHandler {
 			System.out.println(e.getClass() + ": " + e.getMessage());
 			System.out.println("Error copying table");
 		}
-
 	}
 
 	public void updateMenuItems() throws Exception {
@@ -199,5 +198,31 @@ public class SQLHandler {
 		else {
 			System.out.println("Received attempt to update, but already updating");
 		}
+	}
+
+	public JSONArray getRestaurantNames() {
+		Connection c = null;
+		Statement stmt = null;
+		JSONArray json = null;
+		try {
+			c = Main.getConnection();
+			stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT DISTINCT restaurant FROM \'" + MENU_TABLE_NAME + "\';");
+
+			rs.next();
+			
+			json = new JSONArray((String[]) rs.getArray(0).getArray());
+			
+			rs.close();
+			stmt.close();
+			c.close();
+
+			System.out.println("Retrieved menu items");
+		} catch (Exception e) {
+			System.out.println(e.getClass() + ": " + e.getMessage());
+		}
+
+		
+		return json;
 	}
 }

@@ -102,8 +102,8 @@ public class Scraper {
 											dm.getAttribute("href"), -1);
 									System.out.println("cost not listed for " + mi.name + " in " + mi.restaurant);
 								}
-								//print only on first item
-								if(menuItems.get().size() == 0) {
+								// print only on first item
+								if (menuItems.get().size() == 0) {
 									System.out.println("Starting on restaurant " + mi.restaurant);
 								}
 								// only add if the list doesn't have
@@ -132,12 +132,12 @@ public class Scraper {
 					});
 				}
 				HtmlInput nextButton = null;
-				if(!specialty) {
+				if (!specialty) {
 					nextButton = (HtmlInput) page.getElementById("MenuListing_imgRightArrowSpecial");
-				}else {
+				} else {
 					nextButton = (HtmlInput) page.getElementById("MenuListing_imgRightArrowSpecialtyRest");
 				}
-		        page = nextButton.click();
+				page = nextButton.click();
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace(System.out);
