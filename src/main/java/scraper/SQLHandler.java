@@ -209,10 +209,13 @@ public class SQLHandler {
 			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT DISTINCT restaurant FROM \"" + MENU_TABLE_NAME + "\";");
 
-			rs.next();
-			System.out.println(rs.getObject(1).toString());
-			//json = new JSONArray((String[]) rs.getArray(1).getArray());
-			System.out.println(json);
+			
+			ArrayList<String> names = new ArrayList<String>();
+			while(rs.next()) {
+				names.add(rs.getString(1));
+			}
+			json = new JSONArray(names);
+
 			rs.close();
 			stmt.close();
 			c.close();
