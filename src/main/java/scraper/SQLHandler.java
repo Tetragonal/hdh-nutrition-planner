@@ -210,7 +210,8 @@ public class SQLHandler {
 			ResultSet rs = stmt.executeQuery("SELECT DISTINCT restaurant FROM \"" + MENU_TABLE_NAME + "\";");
 
 			rs.next();
-			json = new JSONArray((String[]) rs.getArray(1).getArray());
+			System.out.println(rs.getObject(1).toString());
+			//json = new JSONArray((String[]) rs.getArray(1).getArray());
 			System.out.println(json);
 			rs.close();
 			stmt.close();
