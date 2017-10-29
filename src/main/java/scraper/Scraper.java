@@ -151,7 +151,7 @@ public class Scraper {
 
 	public static MenuItem getMenuItem(String restaurant, String extension, double cost) throws Exception {
 		MenuItem mi = new MenuItem();
-		mi.restaurant = restaurant;
+		mi.restaurant = restaurant.trim();
 		mi.cost = cost;
 
 		Document doc = Jsoup.connect(DINING_MENU_URL + extension).userAgent("Chrome").get();
