@@ -239,8 +239,9 @@ public class SQLHandler {
 			c = Main.getConnection();
 			stmt = c.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT stats_reset FROM pg_stat_database ORDER BY stats_reset DESC LIMIT 1;");
+			ResultSet rs = stmt.executeQuery("SELECT stats_reset FROM pg_stat_database ORDER BY stats_reset DESC LIMIT 2;");
 			
+			rs.next();
 			rs.next();
 			lastModifiedString = rs.getString(1);
 
