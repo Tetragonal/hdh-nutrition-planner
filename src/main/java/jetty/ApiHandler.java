@@ -93,10 +93,14 @@ public class ApiHandler extends AbstractHandler {
 				case "restaurants":
 					parsedResult.put("restaurants", sqlHandler.getRestaurantNames());
 					break;
+				case "lastModified":
+					parsedResult.put("lastUpdated", sqlHandler.getLastModified());
+					break;
 				default:
 					parsedResult.put("success", false);
 					break;
 				}
+				
 				
 				if(!parsedResult.has("success")) {
 					parsedResult.put("success", true);

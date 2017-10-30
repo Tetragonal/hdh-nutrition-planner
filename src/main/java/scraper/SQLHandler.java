@@ -7,6 +7,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -228,5 +229,30 @@ public class SQLHandler {
 
 		
 		return json;
+	}
+
+	public String getLastModified() {
+		Connection c = null;
+		Statement stmt = null;
+		String lastModifiedString = null;
+		try {
+			c = Main.getConnection();
+			stmt = c.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT stats_reset FROM pg_stat_database ORDER BY stats_reset DESC LIMIT 1;");
+			
+			rs.next();
+			lastModifiedString = rs.getString(1);
+
+			rs.close();
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace(System.out);
+			System.out.println(e.getClass() + ": " + e.getMessage());
+		}
+
+		
+		return lastModifiedString;
 	}
 }
