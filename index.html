@@ -1,110 +1,267 @@
+<!DOCTYPE html>
 <html>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-	<link rel="stylesheet" type="text/css" href="test.css">
-	<body>
-		<!-- Always shows a header, even in smaller screens. -->
-		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-			<header class="mdl-layout__header">
-				<div class="mdl-layout__header-row">
-					<span class="mdl-layout-title">HDH Nutrition</span>
-					<div class="mdl-layout-spacer"></div>
-					<nav class="mdl-navigation mdl-layout--large-screen-only">
-						<a class="mdl-navigation__link" href="">About</a>
-						<a class="mdl-navigation__link" href="https://github.com/Tetragonal" target="_blank">Github</a>
-						<a class="mdl-navigation__link" href="">Contact</a>
-					</nav>
-				</div>
-			</header>
-			<div class="mdl-layout__drawer">
-				<span class="mdl-layout-title">Title</span>
-				<nav class="mdl-navigation">
-					<a class="mdl-navigation__link" href="">Link</a>
-					<a class="mdl-navigation__link" href="">Link</a>
-					<a class="mdl-navigation__link" href="">Link</a>
-					<a class="mdl-navigation__link" href="">Link</a>
-				</nav>
-			</div>
-			<main class="mdl-layout__content">
-				<div class="page-content">
-					<br /><br /><br />
-          <div align="center">
-          
-          <button class="mdl-button mdl-button--raised mdl-js-button dialog-button">Search</button>
-					<dialog id="dialog" class="mdl-dialog">
-						<h6 class="mdl-dialog__title">ASDF</h6>
-						<div class="mdl-dialog__content">
-							<input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
-              <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
-              <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
-						</div>
-						<div class="mdl-dialog__actions">
-							<button type="button" class="mdl-button">Close</button>
-							<button type="button" class="mdl-button" disabled>Search</button>
-						</div>
-					</dialog>
-          </div>
-          <br />
-					<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" align="center">
-						<thead>
-							<tr>
-								<th class="mdl-data-table__cell--non-numeric">Name</th>
-								<th>$</th>
-								<th>D. Hall</th>
-                <th>Cal</th>
-                <th>Fat</th>
-                <th>Chol.</th>
-                <th>Sod.</th>
-                <th>Carb.</th>
-                <th>Fiber</th>
-                <th>Protein</th>
-                <th>Allergens</th>
-                <th>Available</th>
-                
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-								<td>25</td>
-								<td>$2.90</td>
-							</tr>
-							<tr>
-								<td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-								<td>50</td>
-								<td>$1.25</td>
-							</tr>
-							<tr>
-								<td class="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-								<td>10</td>
-								<td>$2.00</td>
-							</tr>
-						</tbody>
-					</table>
-					<br><br><br>
-					
-				</div>
-			</main>
-		</div>
-    <script>
-			(function() {
-			'use strict';
-			var dialogButton = document.querySelector('.dialog-button');
-			var dialog = document.querySelector('#dialog');
-			if (! dialog.showModal) {
-			dialogPolyfill.registerDialog(dialog);
-			}
-			dialogButton.addEventListener('click', function() {
-			dialog.showModal();
-			});
-			dialog.querySelector('button:not([disabled])')
-			.addEventListener('click', function() {
-			dialog.close();
-			});
-			}());
-		</script>
-	</body>
+
+   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+   <link rel="stylesheet" type="text/css" href="index.css"/>
+   <link rel="stylesheet" type="text/css" href="nutrition.css"/>
+   
+   <body>
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+         <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+               <span class="mdl-layout-title">HDH Nutrition</span>
+               <div class="mdl-layout-spacer"></div>
+               
+               <nav class="mdl-navigation mdl-layout--large-screen-only">
+                  <a class="mdl-navigation__link update-dialog" href="javascript:void(0);" onclick="updateDatabaseDialog();">Update database</a>
+                  
+                    <dialog id="dialog2" class="mdl-dialog">
+                       <h6 class="mdl-dialog__title">ASasdasdDF</h6>
+                       <div class="mdl-dialog__content">
+                          <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
+                          <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
+                          <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
+                       </div>
+                       <div class="mdl-dialog__actions">
+                          <button type="button" class="mdl-button">Close</button>
+                          <button type="button" class="mdl-button" id="buttonDatabase">Search</button>
+                       </div>
+                    </dialog> 
+                  
+                  <a class="mdl-navigation__link" href="javascript:void(0);">About</a>
+                  <a class="mdl-navigation__link" href="https://github.com/Tetragonal" target="_blank">Github</a>
+                  <a class="mdl-navigation__link" href="javascript:void(0);">Contact</a>
+               </nav>
+            </div>
+         </header>
+         <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Cumulative Nutrition</span>
+            
+            <div id="nutritionfacts" style="align-self: center">
+               <table width="242" cellspacing="0" cellpadding="0" align="center" >
+                  <tbody>
+                     <tr>
+                        <td align="center" class="header" style="padding-bottom : 5px">Nutrition Facts</td>
+                     </tr>
+                     <tr style="height: 7px">
+                        <td bgcolor="#000000"></td>
+                     </tr>
+                     <tr>
+                        <td style="font-size: 7pt">
+                           <div class="line">Amount Per Serving</div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <div class="line">
+                              <div class="label">
+                                 Calories 
+                                 <div class="weight">230</div>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <div class="line">
+                              <div class="dvlabel">% Daily Value<sup>*</sup></div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <div class="line">
+                              <div class="label">
+                                 Total Fat 
+                                 <div class="weight">6.2g</div>
+                              </div>
+                              <div class="dv">10%</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="indent">
+                           <div class="line">
+                              <div class="labellight">
+                                 Saturated Fat 
+                                 <div class="weight">3.5g</div>
+                              </div>
+                              <div class="dv">17%</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="indent">
+                           <div class="line">
+                              <div class="labellight">
+                                 <i>Trans</i> Fat 
+                                 <div class="weight">0.0g</div>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <div class="line">
+                              <div class="label">
+                                 Cholesterol 
+                                 <div class="weight">22mg</div>
+                              </div>
+                              <div class="dv">7%</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <div class="line">
+                              <div class="label">
+                                 Sodium 
+                                 <div class="weight">618mg</div>
+                              </div>
+                              <div class="dv">26%</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <div class="line">
+                              <div class="label">
+                                 Total Carbohydrates 
+                                 <div class="weight">32.2g</div>
+                              </div>
+                              <div class="dv">11%</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="indent">
+                           <div class="line">
+                              <div class="labellight">
+                                 Dietary Fiber 
+                                 <div class="weight">5.2g</div>
+                              </div>
+                              <div class="dv">21%</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="indent">
+                           <div class="line">
+                              <div class="labellight">
+                                 Sugars 
+                                 <div class="weight">3.3g</div>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <div class="line">
+                              <div class="label">
+                                 Protein 
+                                 <div class="weight">11.4g</div>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr style="height: 7px">
+                        <td bgcolor="#000000"></td>
+                     </tr>
+                     <tr>
+                        <td>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <div class="line">
+                              <div class="labellight">* Based on a regular 2000 calorie diet</a>
+                                 <br><br><i>Nutritional details are an estimate and should only be used as a guide for approximation.</i>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <main class="mdl-layout__content">
+            <div class="page-content">
+               <br /><br /><br />
+               <div align="center">
+                  <div id="mdl-table">
+                  
+                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                      <input class="mdl-textfield__input search" type="text" id="sample3">
+                      <label class="mdl-textfield__label" for="sample3">Table search</label>
+                     </div>
+                     <button class="mdl-button mdl-button--raised mdl-js-button dialog-button">Load Restaurants</button>
+                      <dialog id="dialog" class="mdl-dialog">
+                         <h6 class="mdl-dialog__title">ASDF</h6>
+                         <div class="mdl-dialog__content">
+                            <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
+                            <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
+                            <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
+                         </div>
+                         <div class="mdl-dialog__actions">
+                            <button type="button" class="mdl-button">Close</button>
+                            <button type="button" class="mdl-button">Search</button>
+                         </div>
+                      </dialog>                     
+
+                     <table id='mdl-table' class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                        <thead>
+                           <tr>
+                              <th class="mdl-data-table__cell--non-numeric sort" data-sort="name">Name</th>
+                              <th class="sort" data-sort="price">$</th>
+                              <th class="sort" data-sort="diningHall">D. Hall</th>
+                              <th class="sort" data-sort="calories">Cal</th>
+                              <th class="sort" data-sort="fat">Fat</th>
+                              <th class="sort" data-sort="cholesterol">Chol.</th>
+                              <th class="sort" data-sort="sodium">Sod.</th>
+                              <th class="sort" data-sort="carbohydrates">Carb.</th>
+                              <th class="sort" data-sort="fiber">Fiber</th>
+                              <th class="sort" data-sort="protein">Protein</th>
+                              <th class="sort" data-sort="allergens">Allergens</th>
+                           </tr>
+                        </thead>
+                        <tbody class="list">
+                           <tr>
+                              <td class="mdl-data-table__cell--non-numeric name">Acrylic (Transparent)</td>
+                              <td class="price">25</td>
+                              <td class="diningHall">64 Degrees</td>
+                           </tr>
+                           <tr>
+                              <td class="mdl-data-table__cell--non-numeric name">Plywood (Birch)</td>
+                              <td class="price">35</td>
+                              <td class="diningHall">$1.25</td>
+                           </tr>
+                           <tr>
+                              <td class="mdl-data-table__cell--non-numeric name">Laminate (Gold on Blue)</td>
+                              <td class="price">10</td>
+                              <td class="diningHall">$2.35</td>
+                           </tr>
+                           <tr>
+                              <td class="mdl-data-table__cell--non-numeric name">Bamboo (Gold on Blue)</td>
+                              <td class="price">1</td>
+                              <td class="diningHall">$13.15</td>
+                           </tr>
+                           <tr>
+                              <td class="mdl-data-table__cell--non-numeric name">Tile (Gold on Blue)</td>
+                              <td class="price">12</td>
+                              <td class="diningHall">$5.35</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </main>
+      </div>
+      <script src="index.js"></script>
+   </body>
 </html>
