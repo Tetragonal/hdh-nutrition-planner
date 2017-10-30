@@ -18,18 +18,16 @@
                <div class="mdl-layout-spacer"></div>
                
                <nav class="mdl-navigation mdl-layout--large-screen-only">
-                  <a class="mdl-navigation__link update-dialog" href="javascript:void(0);" onclick="updateDatabaseDialog();">Update database</a>
+                  <a class="mdl-navigation__link update-dialog" href="javascript:void(0);">Update database</a>
                   
                     <dialog id="dialog2" class="mdl-dialog">
-                       <h6 class="mdl-dialog__title">ASasdasdDF</h6>
+                       <h6 class="mdl-dialog__title" align="center">Update</h6>
                        <div class="mdl-dialog__content">
-                          <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
-                          <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
-                          <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
+                          <p id="dialog2__content">This will instruct the server to update the internal database. This process will take a few minutes. After waiting, click "Load Restaurants" again.<p>
                        </div>
                        <div class="mdl-dialog__actions">
                           <button type="button" class="mdl-button">Close</button>
-                          <button type="button" class="mdl-button" id="buttonDatabase">Search</button>
+                          <button type="button" class="mdl-button" id="buttonDatabase">Update</button>
                        </div>
                     </dialog> 
                   
@@ -202,14 +200,12 @@
                      <button class="mdl-button mdl-button--raised mdl-js-button dialog-button">Load Restaurants</button>
                       <dialog id="dialog" class="mdl-dialog">
                          <h6 class="mdl-dialog__title">ASDF</h6>
-                         <div class="mdl-dialog__content">
-                            <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
-                            <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
-                            <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="25" tabindex="0" /><br />
+                         <div class="mdl-dialog__content" id="restaurantDiv">
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-123"><input type="checkbox" id="checkbox-123" class="mdl-checkbox__input"><span class="mdl-checkbox__label">Checkbox</span></label>
                          </div>
                          <div class="mdl-dialog__actions">
                             <button type="button" class="mdl-button">Close</button>
-                            <button type="button" class="mdl-button">Search</button>
+                            <button type="button" class="mdl-button" id="searchButton">Search</button>
                          </div>
                       </dialog>                     
 

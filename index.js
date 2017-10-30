@@ -1,3 +1,5 @@
+var url = "https://rainbowcat-jetty.herokuapp.com/api";
+
 
 //library/imported stuff
 var options = {
@@ -9,6 +11,7 @@ var options = {
 $($('th.sort')[0]).trigger('click', function () {
 	console.log('clicked');
 });
+
 
 $('input.search').on('keyup', function (e) {
 	if (e.keyCode === 27) {
@@ -28,10 +31,100 @@ $('input.search').on('keyup', function (e) {
     dialogButton.addEventListener('click', function() {
         dialog.showModal();
     });
+    dialog.querySelector('#searchButton')
+        .addEventListener('click', function() {
+            
+            var restaurants = null;
+            $.ajax({
+              url: url,
+              type: "POST",
+              dataType: "json",
+              data: '{"operation":"restaurants"}'
+            })
+            .done(function(data){
+              restaurants = $.map(data, function(el) {
+                if(el != true && el != false){//ignore "success"
+                  return el; 
+                }});
+              //var $wikiElem = $('#wikipedia-links');
+              //$wikiElem.append('');
+              alert(restaurants);
+              //alert(JSON.stringify(data, null, 2));
+            })
+            .fail(function(){
+              alert("Failed to load");
+            });
+            dialog.close();
+    });
     dialog.querySelector('button:not([disabled])')
         .addEventListener('click', function() {
             dialog.close();
         });
+    
+    //add restaurants
+    var restaurants = null;
+    $.ajax({
+      url: url,
+      type: "POST",
+      dataType: "json",
+      data: '{"operation":"restaurants"}'
+    })
+    .done(function(data){
+      restaurants = data["restaurants"];
+      var $restaurantDiv = $('#restaurantDiv');
+      for(var i=0; i<restaurants.length; i++){
+        //$restaurantDiv.append("<label class=\"mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect\" for=\"checkbox-" + i + "\"><input type=\"checkbox\" id=\"checkbox-" + i + "\" class=\"mdl-checkbox__input\"><span class=\"mdl-checkbox__label\">" + restaurants[i] + "</span></input></label>");
+        
+        var restaurantDiv = document.getElementById('restaurantDiv');
+        
+        var label = document.createElement('label');
+        label.className = "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect restaurantCheckbox";
+        label.setAttribute("for", "checkbox-" + i);
+        
+        var input = document.createElement('input');
+        label.appendChild(input);
+        input.id = "checkbox-" + i;
+        input.className = "mdl-checkbox__input";
+        
+        var span = document.createElement('span');
+        label.appendChild(span);
+        span.className = "mdl-checkbox__label";
+        
+        var textNode = document.createTextNode(restaurants[i]);
+        span.appendChild(textNode);
+        
+        restaurantDiv.appendChild(label);
+        
+        //$restaurantDiv.append("<br /> <br />");
+        
+        componentHandler.upgradeAllRegistered();
+
+        /*
+        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-123">
+          <input type="checkbox" id="checkbox-123" class="mdl-checkbox__input">
+            <span class="mdl-checkbox__label">
+            Checkbox
+          </span>
+        </label>
+        */
+      }
+     $('.mdl-js-checkbox.restaurantCheckbox').each(function (index, element) {
+        console.log(element.onclick);
+        element.addEventListener('click', function(e){
+          if(!element.classList.contains("is-checked")){
+            element.MaterialCheckbox.check();
+          }else{
+            element.MaterialCheckbox.uncheck();
+          }
+          e.stopPropagation();
+          e.preventDefault();
+        });
+        console.log(element.onclick);
+      })
+    })
+    .fail(function(){
+      alert("Failed to load");
+    });
 }());
 
 //listener for update database dialog
@@ -47,8 +140,38 @@ $('input.search').on('keyup', function (e) {
     });
     dialog.querySelector('#buttonDatabase')
         .addEventListener('click', function() {
+            updateDatabase();
+            
+            var lastModified = null;
+            $.ajax({
+              url: url,
+              type: "POST",
+              dataType: "json",
+              data: '{"operation":"lastModified"}'
+            })
+            .done(function(data){
+              lastModified = $.map(data, function(el) {
+                if(el != true && el != false){//ignore "success"
+                  return el; 
+                }});
+              //var $wikiElem = $('#wikipedia-links');
+              //$wikiElem.append('');
+                //<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
+                //<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
+                //<span class="mdl-checkbox__label">Checkbox</span>
+                //</label>
+              //');
+              alert(lastModified);
+              //alert(JSON.stringify(data, null, 2));
+            })
+            .fail(function(){
+              alert("Failed to load");
+            });
             dialog.close();
-            alert("hi");
+    });
+    dialog.querySelector('button:not([disabled])')
+        .addEventListener('click', function() {
+            dialog.close();
         });
 }());
 
@@ -83,6 +206,6 @@ $( document ).ready(function() {
 */
 
 //database stuff
-function updateDatabaseDialog(){
+function updateDatabase(){
   
 }

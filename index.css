@@ -2,6 +2,16 @@ body {
    font-family: 'Roboto', sans-serif;
 }
 
+.mdl-dialog {
+  width: calc(25% + 80px);
+}
+
+@media screen and (width: 500px) {
+  .mdl-dialog {
+    width: 500px;
+  }
+}
+
 .mdl-layout__drawer {
   width: 300px;
   left: -250px;
