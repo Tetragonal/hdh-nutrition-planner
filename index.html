@@ -10,7 +10,14 @@
      <link rel="stylesheet" type="text/css" href="index.css"/>
      <link rel="stylesheet" type="text/css" href="nutrition.css"/>
    
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- Set viewport dimensions-->
+   <meta id="viewport" name="viewport">
+      <script>
+      window.onload = function () {
+          var mvp = document.getElementById('viewport');
+          mvp.setAttribute('content','width=' + (100+$(window).width()));
+      }
+      </script> 
    </head>
    <body>
       <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
