@@ -2,14 +2,23 @@ body {
    font-family: 'Roboto', sans-serif;
 }
 
-.mdl-dialog {
-  width: calc(25% + 80px);
+* { // this works for all but td
+  word-wrap:break-word;
 }
 
-@media screen and (width: 500px) {
-  .mdl-dialog {
-    width: 500px;
-  }
+table { // this somehow makes it work for td
+  table-layout:fixed;
+}
+
+
+.allergens{
+  font-size: 10px;
+  letter-spacing: 0;
+  margin: -10px 0 -10px;
+}
+
+.mdl-dialog {
+  width: calc(10% + 240px);
 }
 
 .mdl-layout__drawer {
@@ -88,6 +97,6 @@ th.sort {
     top:-4px;
     right:-5px;
   }
-  
+
   
   

@@ -200,41 +200,44 @@
             <div class="page-content">
                <br /><br /><br />
                <div align="center">
-                  <div id="mdl-table">
-                  
+                  <div id="mdl-table-div">
                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                       <input class="mdl-textfield__input search" type="text" id="sample3">
                       <label class="mdl-textfield__label" for="sample3">Table search</label>
                      </div>
                      <button class="mdl-button mdl-button--raised mdl-js-button dialog-button">Load Restaurants</button>
                       <dialog id="dialog" class="mdl-dialog">
-                         <h6 class="mdl-dialog__title">ASDF</h6>
-                         <div class="mdl-dialog__content" id="restaurantDiv">
-                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-123"><input type="checkbox" id="checkbox-123" class="mdl-checkbox__input"><span class="mdl-checkbox__label">Checkbox</span></label>
-                         </div>
-                         <div class="mdl-dialog__actions">
+                         <h6 class="mdl-dialog__title">Load Restaurants</h6>
+                         <div class="mdl-dialog__content" id="restaurantDiv"></div>
+                         <div class="mdl-dialog__actions" id="restaurantActions">
                             <button type="button" class="mdl-button">Close</button>
                             <button type="button" class="mdl-button" id="searchButton">Search</button>
                          </div>
                       </dialog>                     
 
-                     <table id='mdl-table' class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                     <table id='mdl-table' class="mdl-data-table mdl-shadow--2dp">
                         <thead>
                            <tr>
-                              <th class="mdl-data-table__cell--non-numeric sort" data-sort="name">Name</th>
-                              <th class="sort" data-sort="price">$</th>
-                              <th class="sort" data-sort="diningHall">D. Hall</th>
-                              <th class="sort" data-sort="calories">Cal</th>
-                              <th class="sort" data-sort="fat">Fat</th>
-                              <th class="sort" data-sort="cholesterol">Chol.</th>
-                              <th class="sort" data-sort="sodium">Sod.</th>
-                              <th class="sort" data-sort="carbohydrates">Carb.</th>
-                              <th class="sort" data-sort="fiber">Fiber</th>
-                              <th class="sort" data-sort="protein">Protein</th>
-                              <th class="sort" data-sort="allergens">Allergens</th>
+							  <th>
+								  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="table-header" id="tableHeaderLabel">
+                    <input type="checkbox" id="table-header" class="mdl-checkbox__input" />
+								  </label>
+							  </th>
+                          <th class="mdl-data-table__cell--non-numeric sort" data-sort="name">Name</th>
+                          <th class="sort" data-sort="price">$</th>
+                          <th class="sort" data-sort="diningHall">D. Hall</th>
+                          <th class="sort" data-sort="calories">Cal</th>
+                          <th class="sort" data-sort="fat">Fat(g)</th>
+                          <th class="sort" data-sort="cholesterol">Chol.(mg)</th>
+                          <th class="sort" data-sort="sodium">Sod.(mg)</th>
+                          <th class="sort" data-sort="carbohydrates">Carb.(g)</th>
+                          <th class="sort" data-sort="fiber">Fiber(g)</th>
+                          <th class="sort" data-sort="sugar">Sugar(g)</th>
+                          <th class="sort" data-sort="protein">Protein(g)</th>
+                          <th class="sort" data-sort="allergens">Allergens</th>
                            </tr>
                         </thead>
-                        <tbody class="list">
+                        <tbody class="list" id="menuItemTable">
                            <tr>
                               <td class="mdl-data-table__cell--non-numeric name">Acrylic (Transparent)</td>
                               <td class="price">25</td>
