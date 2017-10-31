@@ -1,11 +1,13 @@
 var url = "https://rainbowcat-jetty.herokuapp.com/api";
-
+var handler;
+var mdlComp;
 
 //library/imported stuff
 var options = {
-			valueNames: ['name', 'price', 'diningHall', 'calories', 'fat', 'cholesterol', 'sodium', 'carbohydrates', 'fiber', 'protein', 'allergens']
+			valueNames: ['sort-1', 'sort-2', 'sort-3', 'sort-4', 'sort-5', 'sort-6', 'sort-7', 'sort-8', 'sort-9', 'sort-10', 'sort-11', 'sort-12']
 	}
-, documentTable = new List('mdl-table', options)
+  , documentTable
+//, documentTable = new List('mdl-table', options)
 ;
 
 $($('th.sort')[0]).trigger('click', function () {
@@ -179,7 +181,25 @@ $('input.search').on('keyup', function (e) {
 
 //database stuff
 function getMenuItems(){
-  
+      var label2 = $("#tableHeaderLabel").find(".mdl-checkbox__box-outline");
+          label2.hide();
+          label2 = $("#tableHeaderLabel").find(".mdl-checkbox__focus-helper");
+          label2.hide();
+          label2 = $("#tableHeaderLabel").find(".mdl-checkbox__ripple-container");
+          label2.hide();
+          label2 = $("#tableHeaderLabel").find(".mdl-checkbox__input");
+          label2.hide();
+  if(documentTable != null){
+    documentTable.clear();
+    var label = document.getElementById("tableHeaderLabel");
+    var label2 = $("#tableHeaderLabel.mdl-checkbox__box-outline");
+    label.removeEventListener('click', handler, false);
+    label2.hide();
+    var searchField = document.getElementById("mdl-table"),
+    searchFieldClone = searchField.cloneNode(true);
+    searchField.parentNode.replaceChild(searchFieldClone, searchField);
+
+  }
   var menuItemJSON;
   
   var restaurants = [];
@@ -201,7 +221,7 @@ function getMenuItems(){
     for(var i=0;i<data.menuData.length;i++){
       var array = new Array();
       array.push(data.menuData[i].name);
-	  array.push("$" + data.menuData[i].cost.toFixed(2));
+      array.push("$" + data.menuData[i].cost.toFixed(2));
       array.push(data.menuData[i].restaurant);
       array.push(data.menuData[i].calories);
       array.push(data.menuData[i].fat);
@@ -211,7 +231,7 @@ function getMenuItems(){
       array.push(data.menuData[i].fiber);
       array.push(data.menuData[i].sugars);
       array.push(data.menuData[i].protein);
-	  array.push(data.menuData[i].allergens);
+      array.push(data.menuData[i].allergens);
       menuItems.push(array);
     }
 	var table = document.getElementById("menuItemTable");
@@ -249,7 +269,7 @@ function getMenuItems(){
     
     //add table data
     var name = document.createElement('td');
-		name.className = "mdl-data-table__cell--non-numeric name";
+		name.className = "mdl-data-table__cell--non-numeric sort-1";
     
     var nameLength = menuItems[j][0].length;
     if(nameLength > 30){
@@ -266,12 +286,13 @@ function getMenuItems(){
     
     for(var k=1; k<=10; k++){
       var elem = document.createElement('td');
+      elem.className = "sort-" + (k+1);
       elem.append(menuItems[j][k]);
       tr.appendChild(elem);
     }
     
     var elem = document.createElement('td');
-    
+    elem.className = "sort-12";
     for(var i=0; i<menuItems[j][11].length; i++){
       var p = document.createElement('p');
       p.className = "allergens";
@@ -286,64 +307,68 @@ function getMenuItems(){
 	});
 	componentHandler.upgradeAllRegistered();
   
-  //add listener for header button
   var label = document.getElementById("tableHeaderLabel");
-  label.addEventListener('click', function(e) {
+  mdlComp = new MaterialCheckbox(label);
+  label.removeEventListener('click', handler);
+  //add listener for header button
+  handler = function(e) {
+    console.log("hi");
       if(!label.classList.contains("is-checked")){
-        label.MaterialCheckbox.check();
+        mdlComp.check();
         $('.mdl-js-checkbox.tableButton').each(function (index, element) {
           element.MaterialCheckbox.check();
           e.stopPropagation();
           e.preventDefault();
         });
       }else{
-        label.MaterialCheckbox.uncheck();
+        mdlComp.uncheck();
         $('.mdl-js-checkbox.tableButton').each(function (index, element) {
           element.MaterialCheckbox.uncheck();
           e.stopPropagation();
           e.preventDefault();
         });
       }
-  });
-    
+  };
+  
+  label.addEventListener('click', handler, false);
+
+  //update list,js for sort/search
+
+  documentTable = new List('mdl-table-div', options);
     
   })
   .fail(function(){
     alert("Failed to load");
   });
   
-}
-
-function getLastModified(){
-  $.ajax({
-    url: url,
-    type: "POST",
-    dataType: "json",
-    data: '{"operation":"lastModified"}'
-  })
-  .done(function(data){
-    lastModified = $.map(data, function(el) {
-      if(el != true && el != false){//ignore "success"
-        return el; 
-      }});
-    //var $wikiElem = $('#wikipedia-links');
-    //$wikiElem.append('');
-      //<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
-      //<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
-      //<span class="mdl-checkbox__label">Checkbox</span>
-      //</label>
-    //');
-    alert(lastModified);
-    //alert(JSON.stringify(data, null, 2));
-  })
-  .fail(function(){
-    alert("Failed to load");
-  });
 }
 
 function updateNutrition(){
 }
 
 function updateDatabase(){
-  
+  $.ajax({
+      url: url,
+      type: "POST",
+      dataType: "json",
+      data: '{"operation":"update"}'
+    })
+    .done(function(data){
+      var updating = data["updating"];
+      var snackbarContainer = document.querySelector('#toast');
+      
+      if(updating == true){
+        data = {message: "Already updating"};
+      }else{
+        data = {message: "Started updating"};
+      }
+      snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    })
+    .fail(function(){
+      var snackbarContainer = document.querySelector('#toast');
+
+      var data = {message: "Error"};
+
+      snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    });
 }

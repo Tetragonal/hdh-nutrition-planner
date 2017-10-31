@@ -217,58 +217,37 @@
 
                      <table id='mdl-table' class="mdl-data-table mdl-shadow--2dp">
                         <thead>
-                           <tr>
-							  <th>
-								  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="table-header" id="tableHeaderLabel">
-                    <input type="checkbox" id="table-header" class="mdl-checkbox__input" />
-								  </label>
-							  </th>
-                          <th class="mdl-data-table__cell--non-numeric sort" data-sort="name">Name</th>
-                          <th class="sort" data-sort="price">$</th>
-                          <th class="sort" data-sort="diningHall">D. Hall</th>
-                          <th class="sort" data-sort="calories">Cal</th>
-                          <th class="sort" data-sort="fat">Fat(g)</th>
-                          <th class="sort" data-sort="cholesterol">Chol.(mg)</th>
-                          <th class="sort" data-sort="sodium">Sod.(mg)</th>
-                          <th class="sort" data-sort="carbohydrates">Carb.(g)</th>
-                          <th class="sort" data-sort="fiber">Fiber(g)</th>
-                          <th class="sort" data-sort="sugar">Sugar(g)</th>
-                          <th class="sort" data-sort="protein">Protein(g)</th>
-                          <th class="sort" data-sort="allergens">Allergens</th>
-                           </tr>
+                          <tr>
+                            <th>
+                              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="table-header" id="tableHeaderLabel">
+                                <input type="checkbox" id="table-header" class="mdl-checkbox__input" />
+                              </label>
+                            </th>
+                            <th class="mdl-data-table__cell--non-numeric sort" data-sort="sort-1">Name</th>
+                            <th class="sort" data-sort="sort-2">$</th>
+                            <th class="sort" data-sort="sort-3">D. Hall</th>
+                            <th class="sort" data-sort="sort-4">Cal</th>
+                            <th class="sort" data-sort="sort-5">Fat(g)</th>
+                            <th class="sort" data-sort="sort-6">Chol.(mg)</th>
+                            <th class="sort" data-sort="sort-7">Sod.(mg)</th>
+                            <th class="sort" data-sort="sort-8">Carb.(g)</th>
+                            <th class="sort" data-sort="sort-9">Fiber(g)</th>
+                            <th class="sort" data-sort="sort-10">Sugar(g)</th>
+                            <th class="sort" data-sort="sort-11">Protein(g)</th>
+                            <th class="sort" data-sort="sort-12">Allergens</th>
+                          </tr>
                         </thead>
                         <tbody class="list" id="menuItemTable">
-                           <tr>
-                              <td class="mdl-data-table__cell--non-numeric name">Acrylic (Transparent)</td>
-                              <td class="price">25</td>
-                              <td class="diningHall">64 Degrees</td>
-                           </tr>
-                           <tr>
-                              <td class="mdl-data-table__cell--non-numeric name">Plywood (Birch)</td>
-                              <td class="price">35</td>
-                              <td class="diningHall">$1.25</td>
-                           </tr>
-                           <tr>
-                              <td class="mdl-data-table__cell--non-numeric name">Laminate (Gold on Blue)</td>
-                              <td class="price">10</td>
-                              <td class="diningHall">$2.35</td>
-                           </tr>
-                           <tr>
-                              <td class="mdl-data-table__cell--non-numeric name">Bamboo (Gold on Blue)</td>
-                              <td class="price">1</td>
-                              <td class="diningHall">$13.15</td>
-                           </tr>
-                           <tr>
-                              <td class="mdl-data-table__cell--non-numeric name">Tile (Gold on Blue)</td>
-                              <td class="price">12</td>
-                              <td class="diningHall">$5.35</td>
-                           </tr>
                         </tbody>
                      </table>
                   </div>
                </div>
             </div>
          </main>
+      </div>
+      <div id="toast" class="mdl-js-snackbar mdl-snackbar">
+      <div class="mdl-snackbar__text"></div>
+      <button class="mdl-snackbar__action" type="button"></button>
       </div>
       <script src="index.js"></script>
    </body>
