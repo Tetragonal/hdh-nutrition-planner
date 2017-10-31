@@ -131,7 +131,7 @@ public class SQLHandler {
 				list += "\'" + s + "\'" + ",";
 			}
 			list = list.substring(0, list.length()-1) + ")";
-			ResultSet rs = stmt.executeQuery("SELECT * FROM \"" + MENU_TABLE_NAME + "\" WHERE restaurant IN " + list + " ORDER BY restaurant;");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM \"" + MENU_TABLE_NAME + "\" WHERE restaurant IN " + list.replace("\'", "\'\'") + " ORDER BY restaurant;");
 
 			// sql to json
 			json = new JSONArray();
