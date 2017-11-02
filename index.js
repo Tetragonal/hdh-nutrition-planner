@@ -129,7 +129,12 @@ $('input.search').on('keyup', function (e) {
     .fail(function(){
       var restaurantDiv = document.getElementById('restaurantDiv');
       restaurantDiv.append("Failed to load. Try refreshing");
-      console.log("Failed to load");
+      
+      var snackbarContainer = document.querySelector('#toast');
+
+      var data = {message: "Failed to load restaurants. Check internet or try refreshing."};
+
+      snackbarContainer.MaterialSnackbar.showSnackbar(data);
     });
 }());
 
@@ -165,7 +170,7 @@ $('input.search').on('keyup', function (e) {
     dialog2.append(lastModified);
     })
       .fail(function(){
-        alert("Failed to load");
+        console.log("Failed to load lastModified");
     });
     
     dialog.querySelector('#buttonDatabase')
@@ -232,6 +237,7 @@ function getMenuItems(){
       array.push(data.menuData[i].sugars);
       array.push(data.menuData[i].protein);
       array.push(data.menuData[i].allergens);
+      array.push(data.menuData[i].saturated_fat);
       menuItems.push(array);
     }
 	var table = document.getElementById("menuItemTable");
@@ -239,8 +245,6 @@ function getMenuItems(){
 	while (table.firstChild) {
 		table.removeChild(table.firstChild);
 	}
-  //reset cumulative nutrition
-  updateNutrition();
 	//populate table
 	var $table = $('#menuItemTable');
   
@@ -284,6 +288,8 @@ function getMenuItems(){
     name.append(menuItems[j][0]);
 		tr.appendChild(name);
     
+    tr.setAttribute('satFat', menuItems[j][12]); //set satFat
+    
     for(var k=1; k<=10; k++){
       var elem = document.createElement('td');
       elem.className = "sort-" + (k+1);
@@ -303,6 +309,7 @@ function getMenuItems(){
     tr.appendChild(elem);
     
     table.appendChild(tr);
+    
 		j++;
 	});
 	componentHandler.upgradeAllRegistered();
@@ -312,8 +319,7 @@ function getMenuItems(){
   label.removeEventListener('click', handler);
   //add listener for header button
   handler = function(e) {
-    console.log("hi");
-      if(!label.classList.contains("is-checked")){
+    if(!label.classList.contains("is-checked")){
         mdlComp.check();
         $('.mdl-js-checkbox.tableButton').each(function (index, element) {
           element.MaterialCheckbox.check();
@@ -332,18 +338,97 @@ function getMenuItems(){
   
   label.addEventListener('click', handler, false);
 
-  //update list,js for sort/search
-
+  //update list.js for sort/search
   documentTable = new List('mdl-table-div', options);
-    
+  
+  //reset cumulative nutrition
+  updateNutrition();
+  
+  var snackbarContainer = document.querySelector('#toast');
+
+  var data = {message: "Updated table data"};
+
+  snackbarContainer.MaterialSnackbar.showSnackbar(data);
+  
   })
   .fail(function(){
-    alert("Failed to load");
+    var snackbarContainer = document.querySelector('#toast');
+    var data = {message: "Failed to update table data. Check your connection and try again."};
+    snackbarContainer.MaterialSnackbar.showSnackbar(data);
   });
   
 }
 
+var dvFat = 65,
+    dvSatFat = 20,
+    dvCholesterol = 300,
+    dvSodium = 2400,
+    dvCarbohydrates = 300,
+    dvFiber = 25,
+    dvProtein = 50;
+    
 function updateNutrition(){
+  var totalItems = 0,
+      totalCost = 0,
+      totalCalories = 0,
+      totalFat = 0,
+      totalSatFat = 0,
+      totalCholesterol = 0,
+      totalSodium = 0,
+      totalCarbohydrates = 0,
+      totalFiber = 0,
+      totalSugar = 0,
+      totalProtein = 0;
+  
+  var table = document.getElementById("menuItemTable");
+  //children: tr, then tds in a row
+  var rows = table.childNodes;
+  for(var i=0; i<rows.length; i++){
+      if (rows[i].nodeType != 1) {
+          continue; //only continue if row[i] is an element
+      }
+      var cols = rows[i].childNodes;
+      var checkBoxLabel = cols[0].childNodes[0];
+      
+      //if checkmark is checked, add all values to total
+      if(checkBoxLabel.classList.contains("is-checked")){
+        console.log("Checked");
+        totalItems++;
+        totalCost += parseFloat(cols[2].innerHTML.replace("$",""));
+        totalCalories += parseInt(cols[4].innerHTML);
+        totalFat += parseInt(cols[5].innerHTML);
+        totalCholesterol += parseInt(cols[6].innerHTML);
+        totalSodium += parseInt(cols[7].innerHTML);
+        totalCarbohydrates += parseInt(cols[8].innerHTML);
+        totalFiber += parseInt(cols[9].innerHTML);
+        totalSugar += parseInt(cols[10].innerHTML);
+        totalProtein += parseInt(cols[11].innerHTML);
+        
+        totalSatFat += parseInt(rows[i].getAttribute("satFat"));
+        
+      }
+  }
+  console.log(totalItems + " " + totalCost + " " + totalSatFat);
+  
+  //apply totals to nutrition label
+  document.getElementById("totalCost").innerHTML = "$" + totalCost.toFixed(2);
+  document.getElementById("totalItems").innerHTML = totalItems;
+  document.getElementById("caloriesLabel").innerHTML = totalCalories;
+  document.getElementById("fatLabel").innerHTML = totalFat + "g";
+  document.getElementById("fatPercent").innerHTML = (100*totalFat/dvFat).toFixed(0) + "%";
+  document.getElementById("saturatedFatLabel").innerHTML = totalSatFat + "g";
+  document.getElementById("saturatedFatPercent").innerHTML = (100*totalSatFat/dvSatFat).toFixed(0) + "%";
+  document.getElementById("cholesterolLabel").innerHTML = totalCholesterol + "mg";
+  document.getElementById("cholesterolPercent").innerHTML = (100*totalCholesterol/dvCholesterol).toFixed(0) + "%";
+  document.getElementById("sodiumLabel").innerHTML = totalSodium + "mg";
+  document.getElementById("sodiumPercent").innerHTML = (100*totalSodium/dvSodium).toFixed(0) + "%";
+  document.getElementById("carbohydratesLabel").innerHTML = totalCarbohydrates + "g";
+  document.getElementById("carbohydratesPercent").innerHTML = (100*totalCarbohydrates/dvCarbohydrates).toFixed(0) + "%";
+  document.getElementById("fiberLabel").innerHTML = totalFiber + "g";
+  document.getElementById("fiberPercent").innerHTML = (100*totalFiber/dvFiber).toFixed(0) + "%";
+  document.getElementById("sugarLabel").innerHTML = totalSugar + "g";
+  document.getElementById("proteinLabel").innerHTML = totalProtein + "g";
+  document.getElementById("proteinPercent").innerHTML = (100*totalProtein/dvProtein).toFixed(0) + "%";
 }
 
 function updateDatabase(){
@@ -367,8 +452,16 @@ function updateDatabase(){
     .fail(function(){
       var snackbarContainer = document.querySelector('#toast');
 
-      var data = {message: "Error"};
+      var data = {message: "Couldn't update database."};
 
       snackbarContainer.MaterialSnackbar.showSnackbar(data);
     });
 }
+
+$( document ).ready(function() {
+    componentHandler.upgradeAllRegistered();
+    document.getElementsByClassName("mdl-layout__drawer-button")[0].addEventListener('click', function() {
+        console.log("hi");
+        updateNutrition();
+    });
+});

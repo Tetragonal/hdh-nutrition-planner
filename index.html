@@ -18,6 +18,9 @@
           mvp.setAttribute('content','width=' + (100+$(window).width()));
       }
       </script> 
+   
+   <link rel="shortcut icon" type="image/x-icon" href="icon.png" />
+   <title>HDH Nutrition Planner</title>
    </head>
    <body>
       <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -48,7 +51,6 @@
          </header>
          <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">Cumulative Nutrition</span>
-            
             <div id="nutritionfacts" style="align-self: center">
                <table width="242" cellspacing="0" cellpadding="0" align="center" >
                   <tbody>
@@ -58,17 +60,17 @@
                      <tr style="height: 7px">
                         <td bgcolor="#000000"></td>
                      </tr>
-                     <tr>
-                        <td style="font-size: 7pt">
-                           <div class="line">Amount Per Serving</div>
+                     <tr style="height: 25px">
+                        <td style="text-align:center">
+                          Total items: <span id="totalItems">0</span><br />Total cost: <span id="totalCost">$0.00</span>
                         </td>
                      </tr>
-                     <tr>
+                     <br>
                         <td>
                            <div class="line">
                               <div class="label">
                                  Calories 
-                                 <div class="weight">230</div>
+                                 <div class="weight" id="caloriesLabel">230</div>
                               </div>
                            </div>
                         </td>
@@ -85,9 +87,9 @@
                            <div class="line">
                               <div class="label">
                                  Total Fat 
-                                 <div class="weight">6.2g</div>
+                                 <div class="weight" id="fatLabel">6.2g</div>
                               </div>
-                              <div class="dv">10%</div>
+                              <div class="dv" id="fatPercent">10%</div>
                            </div>
                         </td>
                      </tr>
@@ -96,9 +98,9 @@
                            <div class="line">
                               <div class="labellight">
                                  Saturated Fat 
-                                 <div class="weight">3.5g</div>
+                                 <div class="weight" id="saturatedFatLabel">3.5g</div>
                               </div>
-                              <div class="dv">17%</div>
+                              <div class="dv" id="saturatedFatPercent">17%</div>
                            </div>
                         </td>
                      </tr>
@@ -117,9 +119,9 @@
                            <div class="line">
                               <div class="label">
                                  Cholesterol 
-                                 <div class="weight">22mg</div>
+                                 <div class="weight" id="cholesterolLabel">22mg</div>
                               </div>
-                              <div class="dv">7%</div>
+                              <div class="dv" id="cholesterolPercent">7%</div>
                            </div>
                         </td>
                      </tr>
@@ -128,9 +130,9 @@
                            <div class="line">
                               <div class="label">
                                  Sodium 
-                                 <div class="weight">618mg</div>
+                                 <div class="weight" id="sodiumLabel">618mg</div>
                               </div>
-                              <div class="dv">26%</div>
+                              <div class="dv" id="sodiumPercent">26%</div>
                            </div>
                         </td>
                      </tr>
@@ -139,9 +141,9 @@
                            <div class="line">
                               <div class="label">
                                  Total Carbohydrates 
-                                 <div class="weight">32.2g</div>
+                                 <div class="weight" id="carbohydratesLabel">0g</div>
                               </div>
-                              <div class="dv">11%</div>
+                              <div class="dv" id="carbohydratesPercent">0%</div>
                            </div>
                         </td>
                      </tr>
@@ -150,9 +152,9 @@
                            <div class="line">
                               <div class="labellight">
                                  Dietary Fiber 
-                                 <div class="weight">5.2g</div>
+                                 <div class="weight" id="fiberLabel">0g</div>
                               </div>
-                              <div class="dv">21%</div>
+                              <div class="dv" id="fiberPercent">0%</div>
                            </div>
                         </td>
                      </tr>
@@ -161,7 +163,7 @@
                            <div class="line">
                               <div class="labellight">
                                  Sugars 
-                                 <div class="weight">3.3g</div>
+                                 <div class="weight" id="sugarLabel">0g</div>
                               </div>
                            </div>
                         </td>
@@ -171,8 +173,9 @@
                            <div class="line">
                               <div class="label">
                                  Protein 
-                                 <div class="weight">11.4g</div>
+                                 <div class="weight" id="proteinLabel">0g</div>
                               </div>
+                              <div class="dv" id="proteinPercent">0%</div>
                            </div>
                         </td>
                      </tr>
@@ -188,6 +191,9 @@
                            <div class="line">
                               <div class="labellight">* Based on a regular 2000 calorie diet</a>
                                  <br><br><i>Nutritional details are an estimate and should only be used as a guide for approximation.</i>
+                                 <br><br>Notes:
+                                 <br>Take this information with a grain of salt. The site only approximates nutrition information provided by the HDH site, which has unrealistic/incorrect serving sizes for certain items.
+                                 <br><br>The HDH site doesn't supply information on vitamins.
                               </div>
                            </div>
                         </td>
