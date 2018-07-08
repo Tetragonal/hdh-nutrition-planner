@@ -2,6 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.tetragonal</groupId>
   <artifactId>rainbowcat-jetty</artifactId>
+  <packaging>jar</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>rainbowcat-jetty</name>
   <properties>
@@ -9,6 +10,7 @@
    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
   <build>
+  <finalName>rainbowcat-jetty</finalName>
   <plugins>
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
@@ -27,6 +29,12 @@
                 <destFileName>jetty-runner.jar</destFileName>
               </artifactItem>
             </artifactItems>
+            <archive>
+              <manifest>
+                <!-- Jar file entry point -->
+                <mainClass>jetty.Main</mainClass>
+              </manifest>
+            </archive>
           </configuration>
         </execution>
        </executions>

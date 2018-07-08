@@ -1,1 +1,1 @@
-web: java -jar rainbowcat-jetty.jar $PORT
+web: java -jar target/rainbowcat-jetty.jar $PORT
