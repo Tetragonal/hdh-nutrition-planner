@@ -17,30 +17,30 @@ The information is scraped from https://hdh.ucsd.edu/DiningMenus/
 [list.js](http://listjs.com/)
 
 ## PSQL setup:
-Create a table called "menu_items" with the following attributes:
-rainbowcat-jetty::DATABASE=> select column_name, data_type from information_schema.columns where table_name = 'menu_items';
-  column_name  |          data_type
----------------+-----------------------------
- name          | character varying
- restaurant    | character varying
- cost          | money
- calories      | integer
- fat           | double precision
- saturated_fat | double precision
- trans_fat     | double precision
- cholesterol   | double precision
- sodium        | double precision
- carbohydrates | double precision
- fiber         | double precision
- sugars        | double precision
- protein       | double precision
- allergens     | ARRAY
- monday        | boolean
- tuesday       | boolean
- wednesday     | boolean
- thursday      | boolean
- friday        | boolean
- saturday      | boolean
- sunday        | boolean
- added         | timestamp without time zone
+Create a table called "menu_items" with the following attributes:<br />
+rainbowcat-jetty::DATABASE=> select column_name, data_type from information_schema.columns where table_name = 'menu_items';<br />
+  column_name  |          data_type<br />
+---------------+----------------------------- <br />
+ name          | character varying<br />
+ restaurant    | character varying<br />
+ cost          | money<br />
+ calories      | integer<br />
+ fat           | double precision<br />
+ saturated_fat | double precision<br />
+ trans_fat     | double precision<br />
+ cholesterol   | double precision<br />
+ sodium        | double precision<br />
+ carbohydrates | double precision<br />
+ fiber         | double precision<br />
+ sugars        | double precision<br />
+ protein       | double precision<br />
+ allergens     | ARRAY<br />
+ monday        | boolean<br />
+ tuesday       | boolean<br />
+ wednesday     | boolean<br />
+ thursday      | boolean<br />
+ friday        | boolean<br />
+ saturday      | boolean<br />
+ sunday        | boolean<br />
+ added         | timestamp without time zone<br />
 (22 rows)
