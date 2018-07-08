@@ -19,7 +19,10 @@ public class Main {
 	
     public static void main( String[] args ) throws Exception {
     	java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);  //turn off HtmlUnit logging
-        Server server = new Server(Integer.parseInt(args[0]));
+    	
+    	int port = args.length > 0 ? Integer.parseInt(args[0]) : 8080;
+    	Server server = new Server(port);
+            
         ApiHandler ah = new ApiHandler();
         ContextHandler apiContext = new ContextHandler();
         apiContext.setContextPath( "/api" );
@@ -35,7 +38,7 @@ public class Main {
         handlers.setHandlers(new Handler[] {apiContext, resource_handler, new DefaultHandler()});
         server.setHandler(handlers);
 
-        System.out.println("Server started on port " + args[0]);
+        System.out.println("Server started on port " + port);
         
         server.start();
         server.join();
