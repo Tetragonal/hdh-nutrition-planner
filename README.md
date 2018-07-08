@@ -15,3 +15,32 @@ The information is scraped from https://hdh.ucsd.edu/DiningMenus/
 [Material Design Lite](https://getmdl.io/started/)
 
 [list.js](http://listjs.com/)
+
+## PSQL setup:
+Create a table called "menu_items" with the following attributes:
+rainbowcat-jetty::DATABASE=> select column_name, data_type from information_schema.columns where table_name = 'menu_items';
+  column_name  |          data_type
+---------------+-----------------------------
+ name          | character varying
+ restaurant    | character varying
+ cost          | money
+ calories      | integer
+ fat           | double precision
+ saturated_fat | double precision
+ trans_fat     | double precision
+ cholesterol   | double precision
+ sodium        | double precision
+ carbohydrates | double precision
+ fiber         | double precision
+ sugars        | double precision
+ protein       | double precision
+ allergens     | ARRAY
+ monday        | boolean
+ tuesday       | boolean
+ wednesday     | boolean
+ thursday      | boolean
+ friday        | boolean
+ saturday      | boolean
+ sunday        | boolean
+ added         | timestamp without time zone
+(22 rows)

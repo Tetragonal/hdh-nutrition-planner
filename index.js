@@ -264,7 +264,7 @@ function getMenuItems(){
     for(var i=0;i<data.menuData.length;i++){
       var array = new Array();
       array.push(data.menuData[i].name);
-      array.push("$" + data.menuData[i].cost.toFixed(2));
+      array.push(data.menuData[i].cost >= 0 ? ("$" + data.menuData[i].cost.toFixed(2)) : "");
       array.push(data.menuData[i].restaurant);
       array.push(data.menuData[i].calories);
       array.push(data.menuData[i].fat);
@@ -432,7 +432,7 @@ function updateNutrition(){
       if(checkBoxLabel.classList.contains("is-checked")){
         console.log("Checked");
         totalItems++;
-        totalCost += parseFloat(cols[2].innerHTML.replace("$",""));
+        totalCost += Math.max(0, parseFloat(cols[2].innerHTML.replace("$","")));
         totalCalories += parseInt(cols[4].innerHTML);
         totalFat += parseInt(cols[5].innerHTML);
         totalCholesterol += parseInt(cols[6].innerHTML);

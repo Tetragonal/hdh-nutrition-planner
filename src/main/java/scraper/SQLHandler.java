@@ -225,15 +225,9 @@ public class SQLHandler {
 	public String getLastModified() throws Exception {
 		Connection c = Main.getConnection();
 		Statement stmt = c.createStatement();
+
+		ResultSet rs = stmt.executeQuery("SELECT added FROM \"" + MENU_TABLE_NAME + "\" LIMIT 1;");
 		
-		//ResultSet rs = stmt.executeQuery("SELECT stats_reset FROM pg_stat_database ORDER BY stats_reset DESC LIMIT 2;");
-		
-		ResultSet rs = stmt.executeQuery("SELECT OBJECT_NAME(OBJECT_ID) AS TableName," +
- "last_user_update,*" +
-"FROM sys.dm_db_index_usage_stats" +
-"WHERE OBJECT_ID=OBJECT_ID( '" + MENU_TABLE_NAME + "')");
-		
-		rs.next();
 		rs.next();
 		
 		String lastModifiedString = rs.getString(1);
