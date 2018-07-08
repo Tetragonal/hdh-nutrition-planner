@@ -28,180 +28,46 @@
             <div class="mdl-layout__header-row">
                <span class="mdl-layout-title">HDH Nutrition</span>
                <div class="mdl-layout-spacer"></div>
-               
+
                <nav class="mdl-navigation mdl-layout--large-screen-only">
                   <a class="mdl-navigation__link update-dialog" href="javascript:void(0);">Update database</a>
                   
                     <dialog id="dialog2" class="mdl-dialog">
                        <h6 class="mdl-dialog__title" align="center">Update</h6>
                        <div class="mdl-dialog__content">
-                          <p id="dialog2__content">This will instruct the server to update the internal database. This process will take a few minutes. After waiting, click "Load Restaurants" again.<p>
+                          <p id="dialog2__content">This will instruct the server to update the internal database. This process will take a few minutes. After waiting, click "Load Restaurants" again.</p>
                        </div>
                        <div class="mdl-dialog__actions">
                           <button type="button" class="mdl-button">Close</button>
                           <button type="button" class="mdl-button" id="buttonDatabase">Update</button>
                        </div>
-                    </dialog> 
-                  
-                  <a class="mdl-navigation__link" href="javascript:void(0);">About</a>
+                    </dialog>
+
+                  <a class="mdl-navigation__link about-dialog" href="javascript:void(0);">About</a>
+                   <dialog id="dialog4" class="mdl-dialog" style="width:calc(10% + 360px)">
+                       <h6 class="mdl-dialog__title" align="center">About</h6>
+                       <div class="mdl-dialog__content">
+                           <p>
+                               This is a utility for viewing UCSD dining hall nutrition information. <br /> <br />
+                               Usage: <br />
+                               To use the tool, click "Load Restaurants" and select the restaurants to view. <br />
+                               Then, mark some checkboxes and click "Nutrition Information" to view the cumulative nutrition information for the selected items.<br /> <br />
+
+                               Details:<br />
+                               The site runs on a jQuery frontend and a Jetty (Java) backend, hosted on Heroku with the PostgreSQL plugin.<br />
+                               The information is scraped from <a href="https://hdh.ucsd.edu/DiningMenus/">https://hdh.ucsd.edu/DiningMenus/</a> <br />
+                           </p>
+                       </div>
+                       <div class="mdl-dialog__actions">
+                           <button type="button" class="mdl-button">Close</button>
+                           <button type="button" class="mdl-button" id="buttonDatabase">Update</button>
+                       </div>
+                   </dialog>
                   <a class="mdl-navigation__link" href="https://github.com/Tetragonal" target="_blank">Github</a>
-                  <a class="mdl-navigation__link" href="javascript:void(0);">Contact</a>
                </nav>
             </div>
          </header>
-         <div class="mdl-layout__drawer">
-            <span class="mdl-layout-title">Cumulative Nutrition</span>
-            <div id="nutritionfacts" style="align-self: center">
-               <table width="242" cellspacing="0" cellpadding="0" align="center" >
-                  <tbody>
-                     <tr>
-                        <td align="center" class="header" style="padding-bottom : 5px">Nutrition Facts</td>
-                     </tr>
-                     <tr style="height: 7px">
-                        <td bgcolor="#000000"></td>
-                     </tr>
-                     <tr style="height: 25px">
-                        <td style="text-align:center">
-                          Total items: <span id="totalItems">0</span><br />Total cost: <span id="totalCost">$0.00</span>
-                        </td>
-                     </tr>
-                     <br>
-                        <td>
-                           <div class="line">
-                              <div class="label">
-                                 Calories 
-                                 <div class="weight" id="caloriesLabel">0</div>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <div class="line">
-                              <div class="dvlabel">% Daily Value<sup>*</sup></div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <div class="line">
-                              <div class="label">
-                                 Total Fat 
-                                 <div class="weight" id="fatLabel">0g</div>
-                              </div>
-                              <div class="dv" id="fatPercent">0%</div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="indent">
-                           <div class="line">
-                              <div class="labellight">
-                                 Saturated Fat 
-                                 <div class="weight" id="saturatedFatLabel">0g</div>
-                              </div>
-                              <div class="dv" id="saturatedFatPercent">0%</div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="indent">
-                           <div class="line">
-                              <div class="labellight">
-                                 <i>Trans</i> Fat 
-                                 <div class="weight">0.0g</div>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <div class="line">
-                              <div class="label">
-                                 Cholesterol 
-                                 <div class="weight" id="cholesterolLabel">0mg</div>
-                              </div>
-                              <div class="dv" id="cholesterolPercent">0%</div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <div class="line">
-                              <div class="label">
-                                 Sodium 
-                                 <div class="weight" id="sodiumLabel">0mg</div>
-                              </div>
-                              <div class="dv" id="sodiumPercent">0%</div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <div class="line">
-                              <div class="label">
-                                 Total Carbohydrates 
-                                 <div class="weight" id="carbohydratesLabel">0g</div>
-                              </div>
-                              <div class="dv" id="carbohydratesPercent">0%</div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="indent">
-                           <div class="line">
-                              <div class="labellight">
-                                 Dietary Fiber 
-                                 <div class="weight" id="fiberLabel">0g</div>
-                              </div>
-                              <div class="dv" id="fiberPercent">0%</div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="indent">
-                           <div class="line">
-                              <div class="labellight">
-                                 Sugars 
-                                 <div class="weight" id="sugarLabel">0g</div>
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <div class="line">
-                              <div class="label">
-                                 Protein 
-                                 <div class="weight" id="proteinLabel">0g</div>
-                              </div>
-                              <div class="dv" id="proteinPercent">0%</div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr style="height: 7px">
-                        <td bgcolor="#000000"></td>
-                     </tr>
-                     <tr>
-                        <td>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <div class="line">
-                              <div class="labellight">* Based on a regular 2000 calorie diet</a>
-                                 <br><br><i>Nutritional details are an estimate and should only be used as a guide for approximation.</i>
-                                 <br><br>Notes:
-                                 <br>Take this information with a grain of salt. The site only approximates nutrition information provided by the HDH site, which has unrealistic/incorrect serving sizes for certain items.
-                                 <br><br>The HDH site doesn't supply information on vitamins.
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-         </div>
+
          <main class="mdl-layout__content">
             <div class="page-content">
                <br /><br /><br />
@@ -219,7 +85,165 @@
                             <button type="button" class="mdl-button">Close</button>
                             <button type="button" class="mdl-button" id="searchButton">Search</button>
                          </div>
-                      </dialog>                     
+                      </dialog>
+                      <button class="mdl-button mdl-button--raised mdl-js-button nutrition-dialog">Nutrition Information</button>
+                      <dialog id="dialog3" class="mdl-dialog" align="center">
+                          <div id="nutritionfacts" class="mdl-dialog__content" style="margin: 0 auto;">
+                              <table width="242" cellspacing="0" cellpadding="0" align="center">
+                                  <tbody>
+                                  <tr>
+                                      <td align="center" class="header" style="padding-bottom : 5px">Nutrition Facts</td>
+                                  </tr>
+                                  <tr style="height: 7px">
+                                      <td bgcolor="#000000"></td>
+                                  </tr>
+                                  <tr style="height: 25px">
+                                      <td style="text-align:center">
+                                          Total items: <span id="totalItems">0</span><br />Total cost: <span id="totalCost">$0.00</span>
+                                      </td>
+                                  </tr>
+                                  <br/>
+                                  <td>
+                                      <div class="line">
+                                          <div class="label">
+                                              Calories
+                                              <div class="weight" id="caloriesLabel">0</div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <div class="line">
+                                              <div class="dvlabel">% Daily Value<sup>*</sup></div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <div class="line">
+                                              <div class="label">
+                                                  Total Fat
+                                                  <div class="weight" id="fatLabel">0g</div>
+                                              </div>
+                                              <div class="dv" id="fatPercent">0%</div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td class="indent">
+                                          <div class="line">
+                                              <div class="labellight">
+                                                  Saturated Fat
+                                                  <div class="weight" id="saturatedFatLabel">0g</div>
+                                              </div>
+                                              <div class="dv" id="saturatedFatPercent">0%</div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td class="indent">
+                                          <div class="line">
+                                              <div class="labellight">
+                                                  <i>Trans</i> Fat
+                                                  <div class="weight">0.0g</div>
+                                              </div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <div class="line">
+                                              <div class="label">
+                                                  Cholesterol
+                                                  <div class="weight" id="cholesterolLabel">0mg</div>
+                                              </div>
+                                              <div class="dv" id="cholesterolPercent">0%</div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <div class="line">
+                                              <div class="label">
+                                                  Sodium
+                                                  <div class="weight" id="sodiumLabel">0mg</div>
+                                              </div>
+                                              <div class="dv" id="sodiumPercent">0%</div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <div class="line">
+                                              <div class="label">
+                                                  Total Carbohydrates
+                                                  <div class="weight" id="carbohydratesLabel">0g</div>
+                                              </div>
+                                              <div class="dv" id="carbohydratesPercent">0%</div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td class="indent">
+                                          <div class="line">
+                                              <div class="labellight">
+                                                  Dietary Fiber
+                                                  <div class="weight" id="fiberLabel">0g</div>
+                                              </div>
+                                              <div class="dv" id="fiberPercent">0%</div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td class="indent">
+                                          <div class="line">
+                                              <div class="labellight">
+                                                  Sugars
+                                                  <div class="weight" id="sugarLabel">0g</div>
+                                              </div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <div class="line">
+                                              <div class="label">
+                                                  Protein
+                                                  <div class="weight" id="proteinLabel">0g</div>
+                                              </div>
+                                              <div class="dv" id="proteinPercent">0%</div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr style="height: 7px">
+                                      <td bgcolor="#000000"></td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <div class="line">
+                                              <div class="labellight">* Based on a regular 2000 calorie diet</a>
+                                                  <br><br><i>Nutritional details are an estimate and should only be used as a guide for approximation.</i>
+                                                  <br><br>Notes:
+                                                  <br>Take this information with a grain of salt. The site only approximates nutrition information provided by the HDH site, which has unrealistic/incorrect serving sizes for certain items.
+                                                  <br><br>The HDH site doesn't supply information on vitamins.
+                                              </div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          <br />
+                          <p><b>Hint:</b> Use the checkboxes to view cumulative nutrition information for selected items.</p>
+                          <div class="mdl-dialog__actions">
+                              <button type="button" class="mdl-button">Close</button>
+                          </div>
+                      </dialog>
 
                      <table id='mdl-table' class="mdl-data-table mdl-shadow--2dp">
                         <thead>

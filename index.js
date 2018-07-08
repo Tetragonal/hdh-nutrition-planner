@@ -184,6 +184,44 @@ $('input.search').on('keyup', function (e) {
         });
 }());
 
+//listener for nutrition dialog
+(function() {
+    'use strict';
+    var dialogButton = document.querySelector('.nutrition-dialog');
+    var dialog = document.querySelector('#dialog3');
+    if (!dialog.showModal) {
+        dialogPolyfill.registerDialog(dialog);
+    }
+    dialogButton.addEventListener('click', function() {
+        dialog.showModal();
+    });
+
+    dialog.querySelector('button:not([disabled])')
+        .addEventListener('click', function() {
+            dialog.close();
+        });
+}());
+
+//listener for about dialog
+(function() {
+    'use strict';
+    var dialogButton = document.querySelector('.about-dialog');
+    var dialog = document.querySelector('#dialog4');
+    if (!dialog.showModal) {
+        dialogPolyfill.registerDialog(dialog);
+    }
+    dialogButton.addEventListener('click', function() {
+        dialog.showModal();
+    });
+
+    dialog.querySelector('button:not([disabled])')
+        .addEventListener('click', function() {
+            dialog.close();
+        });
+}());
+
+
+
 //database stuff
 function getMenuItems(){
       var label2 = $("#tableHeaderLabel").find(".mdl-checkbox__box-outline");
