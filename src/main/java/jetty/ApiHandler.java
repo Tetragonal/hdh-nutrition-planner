@@ -44,6 +44,7 @@ public class ApiHandler extends AbstractHandler {
 			JSONObject result = new JSONObject(resultString);
 			JSONObject parsedResult = new JSONObject();
 			try {
+				System.out.println(result.getString("operation"));
 				switch (result.getString("operation")) {
 				case "ping":
 					parsedResult.put("response", "pong");
@@ -51,7 +52,6 @@ public class ApiHandler extends AbstractHandler {
 				case "test":
 					parsedResult.put("success", true);
 					parsedResult.put("num", 2 * Integer.parseInt(result.getString("num")));
-					parsedResult.put("text", cipher(result.getString("text"), 13));
 					break;
 				case "reset":
 					String password = result.getString("password");
@@ -95,41 +95,31 @@ public class ApiHandler extends AbstractHandler {
 					break;
 				case "lastModified":
 					parsedResult.put("lastUpdated", sqlHandler.getLastModified());
+					System.out.println("No error");
 					break;
 				default:
 					parsedResult.put("success", false);
 					break;
 				}
 				
-				
 				if(!parsedResult.has("success")) {
 					parsedResult.put("success", true);
 				}
 				
-				response.getWriter().println(parsedResult.toString());
 			} catch (Exception e) {
 				parsedResult.put("success", false);
 				System.out.println("Error, unexpected input");
-				System.out.println(e);
+
+				e.printStackTrace(System.out);
+				System.out.println(e.getClass() + ": " + e.getMessage());
 			}finally {
 				// Inform jetty that this request has now been handled
+				response.getWriter().println(parsedResult.toString());
 				baseRequest.setHandled(true);
+				
 			}
 		}else {
 			System.out.println(request.getMethod());
 		}
-	}
-
-	// https://stackoverflow.com/questions/19108737/java-how-to-implement-a-shift-cipher-caesar-cipher
-	private static String cipher(String msg, int shift) {
-		String s = "";
-		for (int x = 0; x < msg.length(); x++) {
-			char c = (char) (msg.charAt(x) + shift);
-			if (c > 'z')
-				s += (char) (msg.charAt(x) - (26 - shift));
-			else
-				s += (char) (msg.charAt(x) + shift);
-		}
-		return s;
 	}
 }

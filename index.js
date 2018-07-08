@@ -498,8 +498,8 @@ function updateDatabase(){
 
 $( document ).ready(function() {
     componentHandler.upgradeAllRegistered();
-    document.getElementsByClassName("mdl-layout__drawer-button")[0].addEventListener('click', function() {
-        console.log("hi");
+    document.getElementById("nutrition-button").addEventListener('click', function() {
+        console.log("Updating nutrition");
         updateNutrition();
     });
 });

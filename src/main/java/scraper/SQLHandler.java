@@ -201,57 +201,47 @@ public class SQLHandler {
 		}
 	}
 
-	public JSONArray getRestaurantNames() {
-		Connection c = null;
-		Statement stmt = null;
-		JSONArray json = null;
-		try {
-			c = Main.getConnection();
-			stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT DISTINCT restaurant FROM \"" + MENU_TABLE_NAME + "\";");
+	public JSONArray getRestaurantNames() throws Exception{
+		Connection c = Main.getConnection();
+		Statement stmt = c.createStatement();
 
-			
-			ArrayList<String> names = new ArrayList<String>();
-			while(rs.next()) {
-				names.add(rs.getString(1));
-			}
-			json = new JSONArray(names);
-
-			rs.close();
-			stmt.close();
-			c.close();
-
-			System.out.println("Retrieved menu items");
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
-			System.out.println(e.getClass() + ": " + e.getMessage());
+		ResultSet rs = stmt.executeQuery("SELECT DISTINCT restaurant FROM \"" + MENU_TABLE_NAME + "\";");
+		
+		ArrayList<String> names = new ArrayList<String>();
+		while(rs.next()) {
+			names.add(rs.getString(1));
 		}
+		JSONArray json = new JSONArray(names);
 
+		rs.close();
+		stmt.close();
+		c.close();
+
+		System.out.println("Retrieved menu items");
 		
 		return json;
 	}
 
-	public String getLastModified() {
-		Connection c = null;
-		Statement stmt = null;
-		String lastModifiedString = null;
-		try {
-			c = Main.getConnection();
-			stmt = c.createStatement();
-			
-			ResultSet rs = stmt.executeQuery("SELECT stats_reset FROM pg_stat_database ORDER BY stats_reset DESC LIMIT 2;");
-			
-			rs.next();
-			rs.next();
-			lastModifiedString = rs.getString(1);
+	public String getLastModified() throws Exception {
+		Connection c = Main.getConnection();
+		Statement stmt = c.createStatement();
+		
+		//ResultSet rs = stmt.executeQuery("SELECT stats_reset FROM pg_stat_database ORDER BY stats_reset DESC LIMIT 2;");
+		
+		ResultSet rs = stmt.executeQuery("SELECT OBJECT_NAME(OBJECT_ID) AS TableName," +
+ "last_user_update,*" +
+"FROM sys.dm_db_index_usage_stats" +
+"WHERE OBJECT_ID=OBJECT_ID( '" + MENU_TABLE_NAME + "')");
+		
+		rs.next();
+		rs.next();
+		
+		String lastModifiedString = rs.getString(1);
 
-			rs.close();
-			stmt.close();
-			c.close();
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
-			System.out.println(e.getClass() + ": " + e.getMessage());
-		}
+		rs.close();
+		stmt.close();
+		c.close();
+
 
 		
 		return lastModifiedString;
