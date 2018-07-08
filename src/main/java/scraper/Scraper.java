@@ -27,6 +27,7 @@ public class Scraper {
 
 	// testing purposes
 	public static void main(String args[]) throws Exception {
+		addAllMenuItems(null, null);
 		ArrayList<String> URLs = getRestaurantURLs();
 		System.out.println(URLs);
 		/*
@@ -60,6 +61,7 @@ public class Scraper {
 		HtmlPage page;
 		boolean specialty = false;
 		try (WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
+			webClient.getOptions().setJavaScriptEnabled(false);
 			System.out.println("Loading from: " + DINING_MENU_URL + restaurantLink);
 			page = (webClient.getPage(DINING_MENU_URL + restaurantLink));
 			int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
