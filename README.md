@@ -8,3 +8,10 @@ Then, mark some checkboxes and click "Nutrition Information" to view the cumulat
 ## Details:
 The site runs on a jQuery frontend and a Jetty (Java) backend, hosted on Heroku with the PostgreSQL plugin.
 The information is scraped from https://hdh.ucsd.edu/DiningMenus/ 
+
+## Dependencies:
+[Jquery](https://jquery.com/)
+
+[Material Design Lite](https://getmdl.io/started/)
+
+[list.js](http://listjs.com/)
