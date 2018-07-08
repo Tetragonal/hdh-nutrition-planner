@@ -1,4 +1,4 @@
-var url = "https://rainbowcat-jetty.herokuapp.com/api";
+var url = "https://rainbowcat-jetty.herokuapp.com/api"; // use https
 var handler;
 var mdlComp;
 
