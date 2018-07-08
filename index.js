@@ -432,7 +432,7 @@ function updateNutrition(){
       if(checkBoxLabel.classList.contains("is-checked")){
         console.log("Checked");
         totalItems++;
-        totalCost += Math.max(0, parseFloat(cols[2].innerHTML.replace("$","")));
+        totalCost += Math.max(0, parseFloat(0 + cols[2].innerHTML.replace("$","")));
         totalCalories += parseInt(cols[4].innerHTML);
         totalFat += parseInt(cols[5].innerHTML);
         totalCholesterol += parseInt(cols[6].innerHTML);
