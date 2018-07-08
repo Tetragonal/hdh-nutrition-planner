@@ -66,6 +66,7 @@ public class Scraper {
 		HtmlPage page;
 		boolean specialty = false;
 		try (WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
+			System.out.println("Test");
 			System.out.println("Loading from: " + DINING_MENU_URL + restaurantLink);
 			page = (webClient.getPage(DINING_MENU_URL + restaurantLink));
 			int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
