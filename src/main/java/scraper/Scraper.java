@@ -9,6 +9,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.script.ScriptEngine;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -18,6 +20,9 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
+import jdk.nashorn.api.scripting.ClassFilter;
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 public class Scraper {
 	private static final String DINING_MENU_URL = "https://hdh.ucsd.edu/DiningMenus/";
@@ -61,7 +66,6 @@ public class Scraper {
 		HtmlPage page;
 		boolean specialty = false;
 		try (WebClient webClient = new WebClient(BrowserVersion.CHROME)) {
-			webClient.getOptions().setJavaScriptEnabled(false);
 			System.out.println("Loading from: " + DINING_MENU_URL + restaurantLink);
 			page = (webClient.getPage(DINING_MENU_URL + restaurantLink));
 			int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
